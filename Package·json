@@ -1,0 +1,14 @@
+{
+  "name": "abdmoteur",
+  "version": "1.0.0",
+  "description": "ABD Moteurs - car accessories store",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "cloudinary": "^2.5.1",
+    "express": "^4.21.2",
+    "firebase-admin": "^12.7.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
