@@ -186,9 +186,11 @@ app.get('/api/stats', auth, wrap(async (_, res) => {
     const o = d.data(); st.orders++; st[o.status] = (st[o.status] || 0) + 1;
     if (!o.reviewed && o.status !== 'cancelled') st.unreviewed = (st.unreviewed || 0) + 1;
     if (o.status !== 'cancelled') {
-      st.revenue += o.total;
+      // Revenue = products only (delivery fee goes to the shipping company, not to the shop)
+      const rev = typeof o.subtotal === 'number' ? o.subtotal : (o.total || 0) - (o.fee || 0);
+      st.revenue += rev;
       const day = new Date(o.createdAt).toISOString().slice(0, 10);
-      st.byDay[day] = (st.byDay[day] || 0) + o.total;
+      st.byDay[day] = (st.byDay[day] || 0) + rev;
       st.byWilaya[o.wilaya] = (st.byWilaya[o.wilaya] || 0) + 1;
       o.items.forEach(i => (st.top[i.name] = (st.top[i.name] || 0) + i.qty));
     }
