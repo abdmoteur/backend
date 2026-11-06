@@ -104,6 +104,13 @@ button.st{border:0;cursor:pointer;font-size:13px;padding:5px 12px}
 .ath img{width:100%;height:100%;object-fit:cover;display:block}
 .ath button{position:absolute;top:3px;background:rgba(0,0,0,.75);border:0;color:#fff;border-radius:5px;width:24px;height:24px;cursor:pointer;font-size:12px;padding:0}
 .ath button[data-rx],.ath button[data-nx]{inset-inline-end:3px}.ath button[data-m]{inset-inline-start:3px}
+.ft-in{max-width:1140px;margin:0 auto;padding:24px 18px 40px;border-top:2px solid var(--red);text-align:center}
+.ft-in h3{margin-bottom:14px}
+.ft-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.ft-links a{background:var(--steel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;text-decoration:none;font-weight:600;transition:border-color .15s}
+.ft-links a:hover{border-color:var(--red)}
+.ft-addr{color:var(--mut);margin-top:14px}
+.ft-cp{color:var(--mut);font-size:13px;margin-top:14px}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:22px}.wheel{display:none}.pp{grid-template-columns:1fr}.bars div{grid-template-columns:80px 1fr 64px}}
 </style>
 </head>
@@ -114,6 +121,7 @@ button.st{border:0;cursor:pointer;font-size:13px;padding:5px 12px}
   <button class="btn" id="cartBtn"></button>
 </div></header>
 <main id="app"></main>
+<footer id="ft"></footer>
 
 <script>
 const L = {
@@ -125,7 +133,7 @@ ar:{sub:'قطع غيار وإكسسوارات السيارات بجودة عال
  univhint:'المنتج يناسب كل السيارات',addc:'إضافة سيارة',nocompat:'لم تتم إضافة سيارات بعد',brandreq:'اختر السيارات المتوافقة أو فعّل "لكل السيارات".',
  share:'شارك المنتج',copy:'نسخ الرابط',copied:'تم النسخ',back:'العودة للمتجر',pnf:'المنتج غير موجود.',
  revenue:'الإيرادات',norders:'عدد الطلبات',visits:'الزيارات',nprod:'المنتجات',pending:'قيد الانتظار',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغى',top:'الأكثر مبيعا',byw:'الطلبات حسب الولاية',
- byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.',imgs:'صور المنتج (اختياري، حتى 6 صور)',mainhint:'النجمة ★ تجعل الصورة هي الرئيسية، و ✕ تحذفها.',max6:'الحد الأقصى 6 صور.',showpw:'إظهار/إخفاء كلمة المرور'},
+ byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.',imgs:'صور المنتج (اختياري، حتى 6 صور)',mainhint:'النجمة ★ تجعل الصورة هي الرئيسية، و ✕ تحذفها.',max6:'الحد الأقصى 6 صور.',showpw:'إظهار/إخفاء كلمة المرور',contact:'تواصل معنا',call:'اتصل بنا',wa:'واتساب',fbpage:'فيسبوك',tt:'تيك توك',loc:'موقع المحل'},
 fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wilayas.',findcar:'Choisissez votre voiture',brand:'Marque',model:'Modèle',allb:'Toutes les marques',allm:'Tous les modèles',search:'Rechercher un produit',reset:'Réinitialiser',
  all:'Tout',add:'Ajouter au panier',cart:'Panier',total:'Total',sub_:'Sous-total',fee:'Livraison',name:'Nom complet',phone:'Téléphone',wilaya:'Wilaya',address:'Adresse',delivery:'Mode de livraison',
  home:'À domicile',desk:'Au bureau',confirm:'Confirmer la commande',ok:'Commande reçue. Nous vous appellerons bientôt pour la confirmer.',empty:'Le panier est vide.',noprod:'Aucun produit pour le moment.',nores:'Aucun produit pour cette voiture.',
@@ -134,7 +142,7 @@ fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wila
  univhint:'Convient à toutes les voitures',addc:'Ajouter la voiture',nocompat:'Aucune voiture ajoutée',brandreq:'Ajoutez des voitures compatibles ou cochez "Toutes voitures".',
  share:'Partager le produit',copy:'Copier le lien',copied:'Copié',back:'Retour à la boutique',pnf:'Produit introuvable.',
  revenue:'Revenus',norders:'Commandes',visits:'Visites',nprod:'Produits',pending:'En attente',shipped:'Expédiée',delivered:'Livrée',cancelled:'Annulée',top:'Meilleures ventes',byw:'Commandes par wilaya',
- byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.',imgs:'Photos du produit (optionnel, jusqu\'à 6)',mainhint:'★ définit la photo principale, ✕ la supprime.',max6:'Maximum 6 photos.',showpw:'Afficher/masquer le mot de passe'},
+ byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.',imgs:'Photos du produit (optionnel, jusqu\'à 6)',mainhint:'★ définit la photo principale, ✕ la supprime.',max6:'Maximum 6 photos.',showpw:'Afficher/masquer le mot de passe',contact:'Contactez-nous',call:'Appelez-nous',wa:'WhatsApp',fbpage:'Facebook',tt:'TikTok',loc:'Localisation du magasin'},
 en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:'Choose your car',brand:'Brand',model:'Model',allb:'All brands',allm:'All models',search:'Search a product',reset:'Clear filter',
  all:'All',add:'Add to cart',cart:'Cart',total:'Total',sub_:'Subtotal',fee:'Delivery',name:'Full name',phone:'Phone',wilaya:'Wilaya',address:'Address',delivery:'Delivery type',
  home:'Home delivery',desk:'Desk pickup',confirm:'Place order',ok:'Order received. We will call you soon to confirm it.',empty:'Your cart is empty.',noprod:'No products yet.',nores:'No products match this car.',
@@ -143,7 +151,16 @@ en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:
  univhint:'Fits all cars',addc:'Add car',nocompat:'No cars added yet',brandreq:'Add compatible cars or tick "Fits all cars".',
  share:'Share this product',copy:'Copy link',copied:'Copied',back:'Back to store',pnf:'Product not found.',
  revenue:'Revenue',norders:'Orders',visits:'Visits',nprod:'Products',pending:'Pending',shipped:'Shipped',delivered:'Delivered',cancelled:'Cancelled',top:'Best sellers',byw:'Orders by wilaya',
- byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.',imgs:'Product photos (optional, up to 6)',mainhint:'★ sets the main photo, ✕ removes it.',max6:'Maximum 6 photos.',showpw:'Show/hide password'}
+ byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.',imgs:'Product photos (optional, up to 6)',mainhint:'★ sets the main photo, ✕ removes it.',max6:'Maximum 6 photos.',showpw:'Show/hide password',contact:'Contact us',call:'Call us',wa:'WhatsApp',fbpage:'Facebook',tt:'TikTok',loc:'Store location'}
+};
+/* ===== معلومات المحل: عدّل القيم هنا فقط (اترك القيمة فارغة '' لإخفاء العنصر) ===== */
+const CONTACT = {
+  phone:    '0555 00 00 00',                              // رقم الهاتف
+  whatsapp: '213555000000',                               // واتساب بالصيغة الدولية بدون + ولا 0 (الجزائر = 213)
+  facebook: 'https://www.facebook.com/YOUR_PAGE',         // رابط صفحة الفيسبوك
+  tiktok:   'https://www.tiktok.com/@YOUR_ACCOUNT',       // رابط حساب التيك توك
+  map:      'https://maps.google.com/?q=YOUR_SHOP_LOCATION', // رابط موقع المحل على Google Maps
+  address:  ''                                            // العنوان كتابةً (اختياري)
 };
 const BRANDS=['Renault','Peugeot','Citroën','Dacia','Volkswagen','Seat','Skoda','Hyundai','Kia','Toyota','Nissan','Suzuki','Fiat','Chevrolet','Mercedes-Benz','BMW','Audi','Ford','Opel','Mazda','Mitsubishi','Honda','Chery','Geely','Jeep','Isuzu'];
 const FEES = {home:600, desk:400}; // keep in sync with server.js
@@ -165,10 +182,19 @@ const money = n => n.toLocaleString(lang === 'ar' ? 'ar-DZ' : lang) + ' ' + t('d
 const ping = () => { if (!sessionStorage.v) { sessionStorage.v = 1; fetch('/api/visit', {method: 'POST'}).catch(() => {}); } };
 const loadProds = async () => { if (!prods.length) try { prods = await api('/products'); } catch {} };
 
+function footer() {
+  const c = CONTACT, digits = v => String(v).replace(/[^\d+]/g, ''), it = [];
+  if (c.phone) it.push(`<a href="tel:${esc(digits(c.phone))}">📞 ${t('call')}: <span dir="ltr">${esc(c.phone)}</span></a>`);
+  if (c.whatsapp) it.push(`<a target="_blank" rel="noopener" href="https://wa.me/${esc(digits(c.whatsapp).replace('+', ''))}">💬 ${t('wa')}</a>`);
+  if (c.facebook) it.push(`<a target="_blank" rel="noopener" href="${esc(c.facebook)}">📘 ${t('fbpage')}</a>`);
+  if (c.tiktok) it.push(`<a target="_blank" rel="noopener" href="${esc(c.tiktok)}">🎵 ${t('tt')}</a>`);
+  if (c.map) it.push(`<a target="_blank" rel="noopener" href="${esc(c.map)}">📍 ${t('loc')}</a>`);
+  $('#ft').innerHTML = it.length || c.address ? `<div class="ft-in"><h3>${t('contact')}</h3><div class="ft-links">${it.join('')}</div>${c.address ? `<p class="ft-addr">${esc(c.address)}</p>` : ''}<p class="ft-cp">© ABDmoteur</p></div>` : '';
+}
 function setLang(l) {
   lang = l; localStorage.lang = l;
   document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
-  $('#lang').value = l; cartLabel(); route();
+  $('#lang').value = l; cartLabel(); footer(); route();
 }
 $('#lang').onchange = e => setLang(e.target.value);
 $('#cartBtn').onclick = () => location.hash = '#cart';
