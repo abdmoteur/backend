@@ -49,9 +49,9 @@ app.get('/p/:id', async (req, res) => {
     const d = await db.collection('products').doc(req.params.id).get();
     if (d.exists) {
       const p = d.data(), url = `${req.protocol}://${req.get('host')}/p/${d.id}`;
-      const desc = p.description || `${p.price} DA - ABDmoteur`, og = (p.images && p.images[0]) || p.image;
-      html = html.replace('<title>ABDmoteur</title>', `<title>${attr(p.name)} | ABDmoteur</title>`).replace('<!--OG-->',
-        `<meta property="og:type" content="product"><meta property="og:site_name" content="ABDmoteur"><meta property="og:title" content="${attr(p.name)}"><meta property="og:description" content="${attr(desc)}"><meta property="og:url" content="${attr(url)}">` +
+      const desc = p.description || `${p.price} DA - ABDmoteurs`, og = (p.images && p.images[0]) || p.image;
+      html = html.replace('<title>ABDmoteurs</title>', `<title>${attr(p.name)} | ABDmoteurs</title>`).replace('<!--OG-->',
+        `<meta property="og:type" content="product"><meta property="og:site_name" content="ABDmoteurs"><meta property="og:title" content="${attr(p.name)}"><meta property="og:description" content="${attr(desc)}"><meta property="og:url" content="${attr(url)}">` +
         (og ? `<meta property="og:image" content="${attr(og)}"><meta name="twitter:card" content="summary_large_image">` : ''));
     }
   } catch (e) { console.error(e); }
@@ -204,4 +204,4 @@ app.get('/api/stats', auth, wrap(async (_, res) => {
 // Upload errors (too many files, file too big...) -> clean JSON instead of a crash page
 app.use((err, req, res, next) => { console.error(err.message); res.status(400).json({ error: 'upload' }); });
 
-app.listen(process.env.PORT || 3000, () => console.log('ABDmoteur running'));
+app.listen(process.env.PORT || 3000, () => console.log('ABDmoteurs running'));
