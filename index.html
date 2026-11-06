@@ -79,6 +79,31 @@ label{display:grid;gap:5px;color:var(--mut);font-size:14px}
 button.st{border:0;cursor:pointer;font-size:13px;padding:5px 12px}
 .prod.off .pic img,.prod.off .noimg{filter:grayscale(.9) opacity(.55)}
 .btn:disabled{background:#3a3e44;color:var(--mut);cursor:not-allowed}
+.pic{position:relative}
+.ph{position:absolute;bottom:8px;inset-inline-end:8px;background:rgba(0,0,0,.7);padding:2px 9px;border-radius:10px;font-size:12px}
+.pp>div{min-width:0}
+.gal{position:relative;overflow:hidden;border-radius:14px;background:var(--steel2);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.gal:active{cursor:grabbing}
+.gt{display:flex;will-change:transform}
+.gs{flex:0 0 100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.gal img{width:100%;height:100%;object-fit:contain;aspect-ratio:auto;border-radius:0;pointer-events:none}
+.ga{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);border:0;color:#fff;width:38px;height:38px;border-radius:50%;font-size:24px;cursor:pointer;line-height:1;padding:0}
+.ga.l{left:8px}.ga.r{right:8px}
+.gd{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.gd i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4)}.gd i.on{background:var(--red2)}
+.thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:4px}
+.thumbs img{width:64px;height:64px;object-fit:cover;aspect-ratio:auto;border-radius:8px;border:2px solid var(--line);cursor:pointer;flex:none}
+.thumbs img.on{border-color:var(--red)}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:50;display:flex;align-items:center;justify-content:center}
+.lb .gal{width:min(900px,96vw);background:transparent}
+.lb .gs{aspect-ratio:auto;height:82vh}
+.lx{position:absolute;top:14px;inset-inline-end:14px;background:rgba(0,0,0,.7);border:1px solid var(--line);color:#fff;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;z-index:2}
+.thumbsA{display:flex;gap:8px;flex-wrap:wrap}
+.ath{position:relative;width:84px;height:84px;border-radius:8px;overflow:hidden;border:2px solid var(--line)}
+.ath.main{border-color:var(--red)}
+.ath img{width:100%;height:100%;object-fit:cover;display:block}
+.ath button{position:absolute;top:3px;background:rgba(0,0,0,.75);border:0;color:#fff;border-radius:5px;width:24px;height:24px;cursor:pointer;font-size:12px;padding:0}
+.ath button[data-rx],.ath button[data-nx]{inset-inline-end:3px}.ath button[data-m]{inset-inline-start:3px}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:22px}.wheel{display:none}.pp{grid-template-columns:1fr}.bars div{grid-template-columns:80px 1fr 64px}}
 </style>
 </head>
@@ -100,7 +125,7 @@ ar:{sub:'قطع غيار وإكسسوارات السيارات بجودة عال
  univhint:'المنتج يناسب كل السيارات',addc:'إضافة سيارة',nocompat:'لم تتم إضافة سيارات بعد',brandreq:'اختر السيارات المتوافقة أو فعّل "لكل السيارات".',
  share:'شارك المنتج',copy:'نسخ الرابط',copied:'تم النسخ',back:'العودة للمتجر',pnf:'المنتج غير موجود.',
  revenue:'الإيرادات',norders:'عدد الطلبات',visits:'الزيارات',nprod:'المنتجات',pending:'قيد الانتظار',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغى',top:'الأكثر مبيعا',byw:'الطلبات حسب الولاية',
- byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.'},
+ byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.',imgs:'صور المنتج (اختياري، حتى 6 صور)',mainhint:'النجمة ★ تجعل الصورة هي الرئيسية، و ✕ تحذفها.',max6:'الحد الأقصى 6 صور.'},
 fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wilayas.',findcar:'Choisissez votre voiture',brand:'Marque',model:'Modèle',allb:'Toutes les marques',allm:'Tous les modèles',search:'Rechercher un produit',reset:'Réinitialiser',
  all:'Tout',add:'Ajouter au panier',cart:'Panier',total:'Total',sub_:'Sous-total',fee:'Livraison',name:'Nom complet',phone:'Téléphone',wilaya:'Wilaya',address:'Adresse',delivery:'Mode de livraison',
  home:'À domicile',desk:'Au bureau',confirm:'Confirmer la commande',ok:'Commande reçue. Nous vous appellerons bientôt pour la confirmer.',empty:'Le panier est vide.',noprod:'Aucun produit pour le moment.',nores:'Aucun produit pour cette voiture.',
@@ -109,7 +134,7 @@ fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wila
  univhint:'Convient à toutes les voitures',addc:'Ajouter la voiture',nocompat:'Aucune voiture ajoutée',brandreq:'Ajoutez des voitures compatibles ou cochez "Toutes voitures".',
  share:'Partager le produit',copy:'Copier le lien',copied:'Copié',back:'Retour à la boutique',pnf:'Produit introuvable.',
  revenue:'Revenus',norders:'Commandes',visits:'Visites',nprod:'Produits',pending:'En attente',shipped:'Expédiée',delivered:'Livrée',cancelled:'Annulée',top:'Meilleures ventes',byw:'Commandes par wilaya',
- byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.'},
+ byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.',imgs:'Photos du produit (optionnel, jusqu\'à 6)',mainhint:'★ définit la photo principale, ✕ la supprime.',max6:'Maximum 6 photos.'},
 en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:'Choose your car',brand:'Brand',model:'Model',allb:'All brands',allm:'All models',search:'Search a product',reset:'Clear filter',
  all:'All',add:'Add to cart',cart:'Cart',total:'Total',sub_:'Subtotal',fee:'Delivery',name:'Full name',phone:'Phone',wilaya:'Wilaya',address:'Address',delivery:'Delivery type',
  home:'Home delivery',desk:'Desk pickup',confirm:'Place order',ok:'Order received. We will call you soon to confirm it.',empty:'Your cart is empty.',noprod:'No products yet.',nores:'No products match this car.',
@@ -118,7 +143,7 @@ en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:
  univhint:'Fits all cars',addc:'Add car',nocompat:'No cars added yet',brandreq:'Add compatible cars or tick "Fits all cars".',
  share:'Share this product',copy:'Copy link',copied:'Copied',back:'Back to store',pnf:'Product not found.',
  revenue:'Revenue',norders:'Orders',visits:'Visits',nprod:'Products',pending:'Pending',shipped:'Shipped',delivered:'Delivered',cancelled:'Cancelled',top:'Best sellers',byw:'Orders by wilaya',
- byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.'}
+ byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.',imgs:'Product photos (optional, up to 6)',mainhint:'★ sets the main photo, ✕ removes it.',max6:'Maximum 6 photos.'}
 };
 const BRANDS=['Renault','Peugeot','Citroën','Dacia','Volkswagen','Seat','Skoda','Hyundai','Kia','Toyota','Nissan','Suzuki','Fiat','Chevrolet','Mercedes-Benz','BMW','Audi','Ford','Opel','Mazda','Mitsubishi','Honda','Chery','Geely','Jeep','Isuzu'];
 const FEES = {home:600, desk:400}; // keep in sync with server.js
@@ -166,6 +191,56 @@ const tagsOf = p => {
 
 const stockTag = p => `<span class="st ${p.available === false ? 'out' : 'in'}">${p.available === false ? t('outstock') : t('instock')}</span>`;
 
+const imgsOf = p => p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+const cdn = (u, w) => u.includes('/upload/') ? u.replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`) : u;
+// Shrink a photo in the browser before upload: max 1400px, JPEG 82%
+const shrink = file => new Promise(ok => {
+  const img = new Image(), u = URL.createObjectURL(file);
+  img.onload = () => {
+    const k = Math.min(1, 1400 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+    const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(u); c.toBlob(b => ok(b), 'image/jpeg', 0.82);
+  };
+  img.onerror = () => { URL.revokeObjectURL(u); ok(null); };
+  img.src = u;
+});
+// Swipeable / draggable gallery. Returns go(index). Fires a 'slide' event on the box.
+function gallery(box, imgs, i = 0, onTap = null, w = 1000) {
+  let x0 = 0, dx = 0, drag = false, moved = false;
+  box.innerHTML = `<div class="gt">${imgs.map(u => `<div class="gs"><img src="${esc(cdn(u, w))}" alt="" draggable="false"></div>`).join('')}</div>` +
+    (imgs.length > 1 ? `<button class="ga l" type="button" aria-label="previous">‹</button><button class="ga r" type="button" aria-label="next">›</button><div class="gd">${imgs.map(() => '<i></i>').join('')}</div>` : '');
+  const tr = box.querySelector('.gt'), dots = box.querySelectorAll('.gd i');
+  const go = k => {
+    i = Math.max(0, Math.min(imgs.length - 1, k));
+    tr.style.transition = 'transform .25s'; tr.style.transform = `translateX(${-i * 100}%)`;
+    dots.forEach((d, n) => d.classList.toggle('on', n === i));
+    box.dispatchEvent(new CustomEvent('slide', {detail: i}));
+  };
+  box.onpointerdown = e => { if (e.target.closest('.ga')) return; drag = true; moved = false; x0 = e.clientX; dx = 0; tr.style.transition = 'none'; try { box.setPointerCapture(e.pointerId); } catch {} };
+  box.onpointermove = e => { if (!drag) return; dx = e.clientX - x0; if (Math.abs(dx) > 6) moved = true; tr.style.transform = `translateX(calc(${-i * 100}% + ${dx}px))`; };
+  box.onpointerup = box.onpointercancel = e => {
+    if (!drag) return; drag = false;
+    if (dx < -50) go(i + 1); else if (dx > 50) go(i - 1); else go(i);
+    if (!moved && onTap && e.type === 'pointerup') onTap(i);
+  };
+  const L_ = box.querySelector('.ga.l'), R_ = box.querySelector('.ga.r');
+  if (L_) { L_.onclick = () => go(i - 1); R_.onclick = () => go(i + 1); }
+  go(i); return go;
+}
+function lightbox(imgs, i, sync) {
+  const lb = document.createElement('div'); lb.className = 'lb';
+  lb.innerHTML = '<button class="lx" type="button" aria-label="close">✕</button><div class="gal" dir="ltr"></div>';
+  document.body.appendChild(lb);
+  const box = lb.querySelector('.gal'); let cur = i;
+  box.addEventListener('slide', e => cur = e.detail);
+  const go = gallery(box, imgs, i, null, 1600);
+  const key = e => { if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') go(cur + 1); else if (e.key === 'ArrowLeft') go(cur - 1); };
+  const close = () => { lb.remove(); document.removeEventListener('keydown', key); sync(cur); };
+  document.addEventListener('keydown', key);
+  lb.querySelector('.lx').onclick = close; lb.onclick = e => { if (e.target === lb) close(); };
+}
+
 /* ---------- Shop with car filter ---------- */
 async function viewShop() {
   document.title = 'ABDmoteur';
@@ -188,7 +263,7 @@ async function viewShop() {
     $('#chips').innerHTML = [''].concat(cats).map(c => `<button class="chip ${c === cat ? 'on' : ''}" data-c="${esc(c)}">${c ? esc(c) : t('all')}</button>`).join('');
     const list = prods.filter(match);
     $('#cnt').textContent = list.length + ' / ' + prods.length;
-    $('#list').innerHTML = list.length ? list.map(p => `<article class="prod ${p.available === false ? 'off' : ''}"><a class="pic" href="/p/${esc(p.id)}">${p.image ? `<img loading="lazy" src="${esc(p.image)}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}</a>
+    $('#list').innerHTML = list.length ? list.map(p => `<article class="prod ${p.available === false ? 'off' : ''}"><a class="pic" href="/p/${esc(p.id)}">${imgsOf(p)[0] ? `<img loading="lazy" src="${esc(cdn(imgsOf(p)[0], 500))}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}${imgsOf(p).length > 1 ? `<span class="ph">🖼 ${imgsOf(p).length}</span>` : ''}</a>
       <div><div class="tags">${stockTag(p)}${tagsOf(p)}</div><a class="pname" href="/p/${esc(p.id)}">${esc(p.name)}</a><span class="price">${money(p.price)}</span><button class="btn" data-id="${esc(p.id)}" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button></div></article>`).join('')
       : `<p class="empty" style="grid-column:1/-1">${prods.length ? t('nores') : t('noprod')}</p>`;
   };
@@ -207,10 +282,10 @@ async function viewProduct(id) {
   const p = prods.find(x => x.id === id);
   if (!p) { $('#app').innerHTML = `<div class="panel empty">${t('pnf')}<br><br><a class="btn" href="/">${t('back')}</a></div>`; return; }
   document.title = p.name + ' | ABDmoteur';
-  const url = location.origin + '/p/' + p.id;
+  const url = location.origin + '/p/' + p.id, imgs = imgsOf(p);
   const comp = (p.universal ? `<li>${t('univ')}</li>` : '') + (p.compat || []).map(c => `<li>${esc(c.brand)} ${c.model ? esc(c.model) : '(' + t('allm') + ')'}</li>`).join('');
   $('#app').innerHTML = `<p style="margin-bottom:14px"><a href="/">← ${t('back')}</a></p><div class="panel pp">
-    ${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}
+    <div>${imgs.length ? '<div class="gal" id="g" dir="ltr"></div><div class="thumbs" id="tn" dir="ltr"></div>' : '<div class="noimg"></div>'}</div>
     <div><h1>${esc(p.name)}</h1>${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''} ${stockTag(p)}<span class="price"><em>${money(p.price)}</em></span>
     <h3>${t('compat')}</h3><ul>${comp}</ul>${p.description ? `<p style="margin-bottom:16px;line-height:1.7">${esc(p.description)}</p>` : ''}
     <button class="btn" id="ad" style="margin-bottom:18px" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button>
@@ -219,6 +294,16 @@ async function viewProduct(id) {
       <a class="btn alt sm" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">Facebook</a>
       <button class="btn alt sm" id="cp">${t('copy')}</button></div></div></div>`;
   $('#ad').onclick = e => { cart[p.id] = (cart[p.id] || 0) + 1; saveCart(); e.target.textContent = '✓'; };
+  if (imgs.length) {
+    const g = $('#g'), tn = $('#tn');
+    const go = gallery(g, imgs, 0, i => lightbox(imgs, i, go));
+    if (imgs.length > 1) {
+      tn.innerHTML = imgs.map((u, k) => `<img src="${esc(cdn(u, 160))}" alt="" data-k="${k}">`).join('');
+      tn.onclick = e => { if (e.target.dataset.k) go(+e.target.dataset.k); };
+      g.addEventListener('slide', e => tn.querySelectorAll('img').forEach((im, k) => im.classList.toggle('on', k === e.detail)));
+      go(0);
+    } else tn.remove();
+  }
   $('#cp').onclick = async e => { try { await navigator.clipboard.writeText(url); e.target.textContent = t('copied'); } catch { prompt(t('copy'), url); } };
 }
 
@@ -241,8 +326,8 @@ async function viewCart() {
     <label>${t('address')}<input name="address" maxlength="160" autocomplete="street-address"></label>
     <label>${t('delivery')}<select name="delivery"><option value="home">${t('home')} — ${money(FEES.home)}</option><option value="desk">${t('desk')} — ${money(FEES.desk)}</option></select></label>
     <p>${t('sub_')}: <b>${money(sub)}</b></p><p>${t('total')}: <b id="tot"></b></p><button class="btn">${t('confirm')}</button></form>`;
-  const tot = () => $('#tot').textContent = money(sub + FEES[$('#ck').delivery.value]);
-  tot(); $('#ck').delivery.onchange = tot;
+  const tot = () => $('#tot').textContent = money(sub + FEES[$('#ck').elements.delivery.value]);
+  tot(); $('#ck').elements.delivery.onchange = tot;
   $('#cl').onclick = e => {
     const d = e.target.dataset.d; if (!d) return; const [id, a] = d.split(':');
     if (a === 'x' || (cart[id] += +a) <= 0) delete cart[id]; saveCart(); viewCart();
@@ -261,7 +346,7 @@ function viewLogin() {
   $('#app').innerHTML = `<form class="panel form" id="lg"><h2>${t('login')}</h2><div id="m"></div><label>${t('pass')}<input type="password" name="password" required autocomplete="current-password"></label><button class="btn">${t('enter')}</button></form>`;
   $('#lg').onsubmit = async e => {
     e.preventDefault();
-    try { const r = await jpost('/login', {password: e.target.password.value}); tok = r.token; sessionStorage.tok = tok; viewAdmin(); }
+    try { const r = await jpost('/login', {password: e.target.elements.password.value}); tok = r.token; sessionStorage.tok = tok; viewAdmin(); }
     catch { $('#m').innerHTML = `<p class="msg">${t('err')}</p>`; }
   };
 }
@@ -290,14 +375,37 @@ async function tabProducts() {
         <input id="cmod" placeholder="${t('model')}" maxlength="40" style="flex:1;min-width:130px"><button type="button" class="btn alt sm" id="ca">${t('addc')}</button></div>
       <div id="cc" class="tags"></div></fieldset>
     <label>${t('desc')}<textarea name="description" rows="3" maxlength="600">${v('description')}</textarea></label>
-    <label>${t('img')}${editId ? ' (' + t('keepimg') + ')' : ''}<input name="image" type="file" accept="image/*"></label>
+    <div class="fs"><span style="color:var(--mut);font-size:14px">${t('imgs')} <b id="ic"></b></span><div id="ip" class="thumbsA"></div>
+      <input id="fi" type="file" accept="image/*" multiple><small style="color:var(--mut)">${t('mainhint')}</small></div>
     <div class="row"><button class="btn">${editId ? t('upd') : t('save')}</button>${editId ? `<button type="button" class="btn alt" id="cx">${t('cancel')}</button>` : ''}</div></form>
-    <div class="panel" id="pl">${list.map(p => `<div class="line"><span class="row">${p.image ? `<img src="${esc(p.image)}" width="46" height="46" style="object-fit:cover;border-radius:8px" alt="">` : ''}
+    <div class="panel" id="pl">${list.map(p => `<div class="line"><span class="row">${imgsOf(p)[0] ? `<img src="${esc(cdn(imgsOf(p)[0], 100))}" width="46" height="46" style="object-fit:cover;border-radius:8px" alt="">` : ''}
       <span><b>${esc(p.name)}</b> — ${money(p.price)}<br><span class="tags">${tagsOf(p)}</span></span></span>
       <span class="row"><button class="st ${p.available === false ? 'out' : 'in'}" data-a="${esc(p.id)}:${p.available === false ? 1 : 0}">${p.available === false ? t('outstock') : t('instock')}</button>
       <a class="btn alt sm" target="_blank" href="/p/${esc(p.id)}">🔗</a><button class="btn alt sm" data-e="${esc(p.id)}">${t('edit')}</button><button class="btn alt sm" data-x="${esc(p.id)}">${t('del')}</button></span></div>`).join('') || `<p class="empty">${t('noprod')}</p>`}</div>`;
   const dc = () => $('#cc').innerHTML = compat.map((c, i) => `<span class="tag x" data-i="${i}">${esc(c.brand)} ${esc(c.model)} ✕</span>`).join('') || `<small style="color:var(--mut)">${t('nocompat')}</small>`;
   dc();
+  const existing = ed ? imgsOf(ed).slice() : [], added = [];
+  const dp = () => {
+    $('#ip').innerHTML = existing.map((u, i) => `<div class="ath ${i === 0 ? 'main' : ''}"><img src="${esc(cdn(u, 160))}" alt="">${i > 0 ? `<button type="button" data-m="${i}" title="★">★</button>` : ''}<button type="button" data-rx="${i}">✕</button></div>`).join('') +
+      added.map((f, i) => `<div class="ath ${!existing.length && i === 0 ? 'main' : ''}"><img src="${f.url}" alt=""><button type="button" data-nx="${i}">✕</button></div>`).join('');
+    $('#ic').textContent = (existing.length + added.length) + '/6';
+  };
+  dp();
+  $('#fi').onchange = async e => {
+    for (const f of [...e.target.files]) {
+      if (existing.length + added.length >= 6) { alert(t('max6')); break; }
+      const blob = await shrink(f); if (blob) added.push({blob, url: URL.createObjectURL(blob)});
+    }
+    e.target.value = ''; dp();
+  };
+  $('#ip').onclick = e => {
+    const d = e.target.dataset;
+    if (d.m !== undefined) existing.unshift(...existing.splice(+d.m, 1));
+    else if (d.rx !== undefined) existing.splice(+d.rx, 1);
+    else if (d.nx !== undefined) added.splice(+d.nx, 1);
+    else return;
+    dp();
+  };
   $('#ca').onclick = () => { const b = $('#cb').value.trim(); if (!b) return; compat.push({brand: b, model: $('#cmod').value.trim()}); $('#cb').value = ''; $('#cmod').value = ''; dc(); };
   $('#cc').onclick = e => { const i = e.target.dataset.i; if (i !== undefined) { compat.splice(+i, 1); dc(); } };
   if ($('#cx')) $('#cx').onclick = () => { editId = ''; tabProducts(); };
@@ -305,12 +413,14 @@ async function tabProducts() {
     e.preventDefault();
     const b = $('#cb').value.trim(); if (b) compat.push({brand: b, model: $('#cmod').value.trim()});
     const fd = new FormData(e.target);
-    fd.set('universal', e.target.universal.checked ? '1' : '0');
+    fd.set('universal', e.target.elements.universal.checked ? '1' : '0');
     if (fd.get('universal') !== '1' && !compat.length) return alert(t('brandreq'));
     fd.set('compat', JSON.stringify(compat));
-    if (!e.target.image.files[0]) fd.delete('image');
+    if (editId) fd.set('keep', JSON.stringify(existing));
+    added.forEach((f, i) => fd.append('images', f.blob, 'photo' + i + '.jpg'));
+    const sb = e.target.querySelector('button:not([type=button])'); sb.disabled = true;
     try { await api(editId ? '/products/' + editId : '/products', {method: editId ? 'PATCH' : 'POST', body: fd}); editId = ''; tabProducts(); }
-    catch { alert(t('err')); }
+    catch { sb.disabled = false; alert(t('err')); }
   };
   $('#pl').onclick = async e => {
     const d = e.target.dataset;
