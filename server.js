@@ -33,7 +33,7 @@ app.use((req, res, next) => {
     'X-Frame-Options': 'DENY',
     'Referrer-Policy': 'same-origin',
     'Strict-Transport-Security': 'max-age=15552000',
-    'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://res.cloudinary.com; connect-src 'self'; frame-ancestors 'none'"
+    'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://res.cloudinary.com; connect-src 'self'; frame-ancestors 'none'"
   });
   next();
 });
@@ -49,10 +49,10 @@ app.get('/p/:id', async (req, res) => {
     const d = await db.collection('products').doc(req.params.id).get();
     if (d.exists) {
       const p = d.data(), url = `${req.protocol}://${req.get('host')}/p/${d.id}`;
-      const desc = p.description || `${p.price} DA - ABDmoteur`;
+      const desc = p.description || `${p.price} DA - ABDmoteur`, og = (p.images && p.images[0]) || p.image;
       html = html.replace('<title>ABDmoteur</title>', `<title>${attr(p.name)} | ABDmoteur</title>`).replace('<!--OG-->',
         `<meta property="og:type" content="product"><meta property="og:site_name" content="ABDmoteur"><meta property="og:title" content="${attr(p.name)}"><meta property="og:description" content="${attr(desc)}"><meta property="og:url" content="${attr(url)}">` +
-        (p.image ? `<meta property="og:image" content="${attr(p.image)}"><meta name="twitter:card" content="summary_large_image">` : ''));
+        (og ? `<meta property="og:image" content="${attr(og)}"><meta name="twitter:card" content="summary_large_image">` : ''));
     }
   } catch (e) { console.error(e); }
   res.send(html);
@@ -75,27 +75,27 @@ app.get('/api/products', wrap(async (_, res) => {
 }));
 
 const uploadImg = buf => new Promise((ok, no) =>
-  cloudinary.uploader.upload_stream({ folder: 'abdmoteur/products' }, (e, r) => (e ? no(e) : ok(r.secure_url))).end(buf));
+  cloudinary.uploader.upload_stream({ folder: 'abdmoteur/products', transformation: [{ width: 1600, height: 1600, crop: 'limit', quality: 80 }] }, (e, r) => (e ? no(e) : ok(r.secure_url))).end(buf));
 const parseCompat = raw => {
   let c = []; try { c = JSON.parse(raw || '[]'); } catch {}
   return (Array.isArray(c) ? c : []).slice(0, 40)
     .map(x => ({ brand: clean(x && x.brand, 30), model: clean(x && x.model, 40) })).filter(x => x.brand);
 };
 
-app.post('/api/products', auth, upload.single('image'), wrap(async (req, res) => {
+app.post('/api/products', auth, upload.array('images', 6), wrap(async (req, res) => {
   const { name, price, category, description } = req.body;
   if (!clean(name, 100) || !(+price > 0)) return res.status(400).json({ error: 'invalid' });
   const compat = parseCompat(req.body.compat), universal = req.body.universal === '1';
   if (!universal && !compat.length) return res.status(400).json({ error: 'compat required' });
-  const image = req.file ? await uploadImg(req.file.buffer) : '';
+  const images = await Promise.all((req.files || []).slice(0, 6).map(f => uploadImg(f.buffer))), image = images[0] || '';
   const doc = { name: clean(name, 100), price: +price, category: clean(category, 40), description: clean(description, 600),
-    compat, universal, available: req.body.available !== '0', image, createdAt: Date.now() };
+    compat, universal, available: req.body.available !== '0', image, images, createdAt: Date.now() };
   const ref = await db.collection('products').add(doc);
   res.json({ id: ref.id, ...doc });
 }));
 
 // Edit a product (full edit from the form, or just {available:true/false} from the quick toggle)
-app.patch('/api/products/:id', auth, upload.single('image'), wrap(async (req, res) => {
+app.patch('/api/products/:id', auth, upload.array('images', 6), wrap(async (req, res) => {
   const b = req.body, upd = {};
   if (b.name !== undefined) { if (!clean(b.name, 100)) return res.status(400).json({ error: 'invalid' }); upd.name = clean(b.name, 100); }
   if (b.price !== undefined) { if (!(+b.price > 0)) return res.status(400).json({ error: 'invalid' }); upd.price = +b.price; }
@@ -107,9 +107,23 @@ app.patch('/api/products/:id', auth, upload.single('image'), wrap(async (req, re
     if (!universal && !compat.length) return res.status(400).json({ error: 'compat required' });
     upd.compat = compat; upd.universal = universal;
   }
-  if (req.file) upd.image = await uploadImg(req.file.buffer);
+  const ref = db.collection('products').doc(req.params.id);
+  // Photos: 'keep' = existing photo URLs to keep (in order), new files are appended. Max 6 in total.
+  if (b.keep !== undefined || (req.files && req.files.length)) {
+    const snap = await ref.get();
+    if (!snap.exists) return res.status(404).json({ error: 'not found' });
+    const o = snap.data(), oldImgs = o.images && o.images.length ? o.images : (o.image ? [o.image] : []);
+    let keep = oldImgs;
+    if (b.keep !== undefined) {
+      let k = []; try { k = JSON.parse(b.keep); } catch {}
+      keep = [...new Set(Array.isArray(k) ? k : [])].filter(u => oldImgs.includes(u));
+    }
+    const files = (req.files || []).slice(0, Math.max(0, 6 - keep.length));
+    const added = await Promise.all(files.map(f => uploadImg(f.buffer)));
+    upd.images = [...keep, ...added]; upd.image = upd.images[0] || '';
+  }
   if (!Object.keys(upd).length) return res.status(400).json({ error: 'invalid' });
-  await db.collection('products').doc(req.params.id).update(upd);
+  await ref.update(upd);
   res.json({ ok: true });
 }));
 
@@ -184,5 +198,8 @@ app.get('/api/stats', auth, wrap(async (_, res) => {
   const last = o => Object.fromEntries(Object.entries(o).sort().slice(-14));
   res.json({ ...st, top: top(st.top), byWilaya: top(st.byWilaya), byDay: last(st.byDay), visitsByDay: last(st.visitsByDay) });
 }));
+
+// Upload errors (too many files, file too big...) -> clean JSON instead of a crash page
+app.use((err, req, res, next) => { console.error(err.message); res.status(400).json({ error: 'upload' }); });
 
 app.listen(process.env.PORT || 3000, () => console.log('ABDmoteur running'));
