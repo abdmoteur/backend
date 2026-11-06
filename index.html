@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ABDmoteur</title>
+<!--OG-->
+<style>
+:root{--red:#d7191f;--red2:#ff3b41;--bg:#0e1012;--steel:#181b1f;--steel2:#22262b;--line:#2f343a;--chrome:#eceef0;--mut:#9aa1a8;--green:#22a559}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Segoe UI',system-ui,Tahoma,Arial,sans-serif;background:var(--bg) repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px);color:var(--chrome);min-height:100vh}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--red2);outline-offset:2px}
+header{background:rgba(10,11,12,.93);backdrop-filter:blur(8px);position:sticky;top:0;z-index:5;box-shadow:0 2px 0 var(--red)}
+.bar{max-width:1140px;margin:auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-inline-end:auto}
+.mini{width:34px;height:34px;border-radius:50%;border:3px solid #eee;background:radial-gradient(circle,var(--red) 0 16%,transparent 17%),repeating-conic-gradient(#cfd3d7 0 4deg,#1a1c1f 4deg 20deg)}
+.word{font-size:26px;font-weight:900;font-style:italic;letter-spacing:.5px;display:inline-block;transform:skewX(-6deg)}
+.word b{color:var(--red);-webkit-text-stroke:1px #fff;paint-order:stroke fill}
+.word span{color:#fff}
+.btn{background:linear-gradient(var(--red2),var(--red));border:0;border-radius:8px;padding:10px 18px;cursor:pointer;font-weight:700;color:#fff;text-decoration:none;display:inline-block;text-align:center}
+.btn.alt{background:transparent;border:1px solid var(--line)}
+.btn.ok{background:var(--green)}
+.btn.sm{padding:6px 11px;font-size:13px}
+select,input,textarea{background:var(--steel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+.bar select{width:auto}
+main{max-width:1140px;margin:auto;padding:22px 18px 70px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#171a1e,#0a0b0c);border:1px solid var(--line);border-radius:18px;padding:34px;margin-bottom:24px;display:grid;grid-template-columns:1.4fr .6fr;gap:20px;align-items:center}
+.hero h1.word{font-size:clamp(42px,8vw,76px);line-height:1}
+.hero .sub{color:var(--mut);margin-top:10px;max-width:46ch}
+.find{margin-top:22px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.find h2{grid-column:1/-1;font-size:16px}.find input{grid-column:1/-1}
+.wheel{width:min(320px,100%);aspect-ratio:1;justify-self:center;border-radius:50%;border:14px solid #f1f1f1;box-shadow:0 0 0 8px #000,0 24px 50px #000a;
+ background:radial-gradient(circle,var(--red) 0 7%,#111 7.5% 11%,transparent 11.5%),repeating-conic-gradient(#cfd3d7 0 1.2deg,transparent 1.2deg 9deg),radial-gradient(circle,#1b1d20 0 62%,#050505 63%);animation:spin 45s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.wheel{animation:none}}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{background:var(--steel);border:1px solid var(--line);border-radius:20px;padding:6px 15px;cursor:pointer}
+.chip.on{background:var(--red);border-color:var(--red)}
+.cnt{color:var(--mut);font-size:14px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.prod{background:var(--steel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s}
+.prod:hover{border-color:var(--red)}
+.pic{display:block}
+.pic img,.noimg{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--steel2);display:block}
+.prod>div{padding:13px;display:flex;flex-direction:column;gap:9px;flex:1;justify-content:space-between}
+.pname{font-weight:700;text-decoration:none;line-height:1.35}
+.price{font-weight:800;font-size:18px}.price em{color:var(--red2);font-style:normal;font-size:14px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.tag{background:var(--steel2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:12px;color:var(--mut)}
+.tag.u{background:var(--red);border-color:var(--red);color:#fff}.tag.x{cursor:pointer;color:var(--chrome)}
+.panel{background:var(--steel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.form{display:grid;gap:12px;max-width:560px}
+label{display:grid;gap:5px;color:var(--mut);font-size:14px}
+.fs{border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px}.fs legend{padding:0 6px;color:var(--mut);font-size:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.pp{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.pp img,.pp .noimg{width:100%;border-radius:14px;aspect-ratio:1;object-fit:cover}
+.pp h1{font-size:clamp(24px,4vw,34px);margin-bottom:10px}.pp ul{padding-inline-start:20px;color:var(--mut);margin:6px 0 14px}
+.pp .price{font-size:28px;display:block;margin:10px 0}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--steel);border-radius:12px;padding:14px;border:1px solid var(--line);border-top:3px solid var(--red)}
+.stat b{display:block;font-size:24px}.stat span{color:var(--mut);font-size:13px}
+.bars div{display:grid;grid-template-columns:110px 1fr 80px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.bars i{display:block;height:12px;background:var(--red);border-radius:3px}
+.msg{padding:12px;border-radius:8px;background:#4a1f1f;margin-bottom:12px}
+.empty{color:var(--mut);padding:30px;text-align:center}
+.day{margin:22px 0 10px;background:#000;padding:10px 14px;border-radius:8px;display:flex;justify-content:space-between}
+.day span{color:var(--mut);font-weight:400}
+.order{border-radius:12px;padding:14px;margin-bottom:10px;border-inline-start:8px solid;display:grid;gap:8px}
+.order.new{border-color:#e02424;background:#3d2222}.order.done{border-color:var(--green);background:#1f3a29}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:700}
+.new .badge{background:#e02424}.done .badge{background:var(--green)}
+.st{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;color:#fff}
+.st.in{background:var(--green)}.st.out{background:#e02424}
+button.st{border:0;cursor:pointer;font-size:13px;padding:5px 12px}
+.prod.off .pic img,.prod.off .noimg{filter:grayscale(.9) opacity(.55)}
+.btn:disabled{background:#3a3e44;color:var(--mut);cursor:not-allowed}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:22px}.wheel{display:none}.pp{grid-template-columns:1fr}.bars div{grid-template-columns:80px 1fr 64px}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="logo" href="/"><span class="mini"></span><span class="word"><b>ABD</b><span>moteur</span></span></a>
+  <select id="lang" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select>
+  <button class="btn" id="cartBtn"></button>
+</div></header>
+<main id="app"></main>
+
+<script>
+const L = {
+ar:{sub:'قطع غيار وإكسسوارات السيارات بجودة عالية، توصيل إلى كل الولايات.',findcar:'اختر سيارتك',brand:'الماركة',model:'الموديل',allb:'كل الماركات',allm:'كل الموديلات',search:'ابحث عن منتج',reset:'مسح الفلتر',
+ all:'الكل',add:'أضف للسلة',cart:'السلة',total:'المجموع',sub_:'مجموع المنتجات',fee:'التوصيل',name:'الاسم الكامل',phone:'رقم الهاتف',wilaya:'الولاية',address:'العنوان',delivery:'نوع التوصيل',
+ home:'إلى المنزل',desk:'إلى المكتب',confirm:'تأكيد الطلب',ok:'تم استلام طلبك. سنتصل بك قريبا لتأكيده.',empty:'السلة فارغة.',noprod:'لا توجد منتجات بعد.',nores:'لا توجد منتجات تناسب هذه السيارة.',
+ remove:'حذف',checkout:'إتمام الطلب',err:'تحقق من البيانات وأعد المحاولة.',login:'دخول الأدمن',pass:'كلمة المرور',enter:'دخول',logout:'خروج',products:'المنتجات',orders:'الطلبات',stats:'الإحصائيات',
+ addp:'إضافة منتج',pname:'اسم المنتج',price:'السعر (دج)',cat:'الفئة',img:'الصورة',desc:'وصف المنتج',save:'حفظ المنتج',del:'حذف',compat:'السيارات المتوافقة',univ:'لكل السيارات',
+ univhint:'المنتج يناسب كل السيارات',addc:'إضافة سيارة',nocompat:'لم تتم إضافة سيارات بعد',brandreq:'اختر السيارات المتوافقة أو فعّل "لكل السيارات".',
+ share:'شارك المنتج',copy:'نسخ الرابط',copied:'تم النسخ',back:'العودة للمتجر',pnf:'المنتج غير موجود.',
+ revenue:'الإيرادات',norders:'عدد الطلبات',visits:'الزيارات',nprod:'المنتجات',pending:'قيد الانتظار',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغى',top:'الأكثر مبيعا',byw:'الطلبات حسب الولاية',
+ byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.'},
+fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wilayas.',findcar:'Choisissez votre voiture',brand:'Marque',model:'Modèle',allb:'Toutes les marques',allm:'Tous les modèles',search:'Rechercher un produit',reset:'Réinitialiser',
+ all:'Tout',add:'Ajouter au panier',cart:'Panier',total:'Total',sub_:'Sous-total',fee:'Livraison',name:'Nom complet',phone:'Téléphone',wilaya:'Wilaya',address:'Adresse',delivery:'Mode de livraison',
+ home:'À domicile',desk:'Au bureau',confirm:'Confirmer la commande',ok:'Commande reçue. Nous vous appellerons bientôt pour la confirmer.',empty:'Le panier est vide.',noprod:'Aucun produit pour le moment.',nores:'Aucun produit pour cette voiture.',
+ remove:'Retirer',checkout:'Commander',err:'Vérifiez les champs et réessayez.',login:'Connexion admin',pass:'Mot de passe',enter:'Se connecter',logout:'Déconnexion',products:'Produits',orders:'Commandes',stats:'Statistiques',
+ addp:'Ajouter un produit',pname:'Nom du produit',price:'Prix (DA)',cat:'Catégorie',img:'Image',desc:'Description',save:'Enregistrer',del:'Supprimer',compat:'Voitures compatibles',univ:'Toutes voitures',
+ univhint:'Convient à toutes les voitures',addc:'Ajouter la voiture',nocompat:'Aucune voiture ajoutée',brandreq:'Ajoutez des voitures compatibles ou cochez "Toutes voitures".',
+ share:'Partager le produit',copy:'Copier le lien',copied:'Copié',back:'Retour à la boutique',pnf:'Produit introuvable.',
+ revenue:'Revenus',norders:'Commandes',visits:'Visites',nprod:'Produits',pending:'En attente',shipped:'Expédiée',delivered:'Livrée',cancelled:'Annulée',top:'Meilleures ventes',byw:'Commandes par wilaya',
+ byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.'},
+en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:'Choose your car',brand:'Brand',model:'Model',allb:'All brands',allm:'All models',search:'Search a product',reset:'Clear filter',
+ all:'All',add:'Add to cart',cart:'Cart',total:'Total',sub_:'Subtotal',fee:'Delivery',name:'Full name',phone:'Phone',wilaya:'Wilaya',address:'Address',delivery:'Delivery type',
+ home:'Home delivery',desk:'Desk pickup',confirm:'Place order',ok:'Order received. We will call you soon to confirm it.',empty:'Your cart is empty.',noprod:'No products yet.',nores:'No products match this car.',
+ remove:'Remove',checkout:'Checkout',err:'Check the fields and try again.',login:'Admin login',pass:'Password',enter:'Sign in',logout:'Sign out',products:'Products',orders:'Orders',stats:'Statistics',
+ addp:'Add product',pname:'Product name',price:'Price (DA)',cat:'Category',img:'Image',desc:'Description',save:'Save product',del:'Delete',compat:'Compatible cars',univ:'All cars',
+ univhint:'Fits all cars',addc:'Add car',nocompat:'No cars added yet',brandreq:'Add compatible cars or tick "Fits all cars".',
+ share:'Share this product',copy:'Copy link',copied:'Copied',back:'Back to store',pnf:'Product not found.',
+ revenue:'Revenue',norders:'Orders',visits:'Visits',nprod:'Products',pending:'Pending',shipped:'Shipped',delivered:'Delivered',cancelled:'Cancelled',top:'Best sellers',byw:'Orders by wilaya',
+ byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.'}
+};
+const BRANDS=['Renault','Peugeot','Citroën','Dacia','Volkswagen','Seat','Skoda','Hyundai','Kia','Toyota','Nissan','Suzuki','Fiat','Chevrolet','Mercedes-Benz','BMW','Audi','Ford','Opel','Mazda','Mitsubishi','Honda','Chery','Geely','Jeep','Isuzu'];
+const FEES = {home:600, desk:400}; // keep in sync with server.js
+let lang = localStorage.lang || 'ar', cart = JSON.parse(localStorage.cart || '{}'), prods = [], tok = sessionStorage.tok || '', tab = 'products', flash = '';
+let cat = '', fb = '', fm = '', q = '';
+const $ = s => document.querySelector(s), t = k => L[lang][k] || k;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api = async (u, o = {}) => {
+  o.headers = {...(o.headers || {}), ...(tok ? {Authorization: 'Bearer ' + tok} : {})};
+  const r = await fetch('/api' + u, o);
+  if (r.status === 401 && tok) { tok = ''; sessionStorage.tok = ''; route(); }
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+};
+const jpost = (u, b, m = 'POST') => api(u, {method: m, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(b)});
+const saveCart = () => { localStorage.cart = JSON.stringify(cart); cartLabel(); };
+const cartLabel = () => $('#cartBtn').textContent = t('cart') + ' (' + Object.values(cart).reduce((a, b) => a + b, 0) + ')';
+const money = n => n.toLocaleString(lang === 'ar' ? 'ar-DZ' : lang) + ' ' + t('da');
+const ping = () => { if (!sessionStorage.v) { sessionStorage.v = 1; fetch('/api/visit', {method: 'POST'}).catch(() => {}); } };
+const loadProds = async () => { if (!prods.length) try { prods = await api('/products'); } catch {} };
+
+function setLang(l) {
+  lang = l; localStorage.lang = l;
+  document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+  $('#lang').value = l; cartLabel(); route();
+}
+$('#lang').onchange = e => setLang(e.target.value);
+$('#cartBtn').onclick = () => location.hash = '#cart';
+window.onhashchange = route;
+
+function route() {
+  const h = location.hash, m = location.pathname.match(/^\/p\/([^/]+)/);
+  if (h === '#cart') return viewCart();
+  if (h === '#admin') return tok ? viewAdmin() : viewLogin();
+  if (m) return viewProduct(decodeURIComponent(m[1]));
+  viewShop();
+}
+
+/* ---------- Shared product bits ---------- */
+const brandsOf = p => [...new Set((p.compat || []).map(c => c.brand))];
+const tagsOf = p => {
+  const b = brandsOf(p);
+  return (p.universal ? `<span class="tag u">${t('univ')}</span>` : '') + b.slice(0, 3).map(x => `<span class="tag">${esc(x)}</span>`).join('') + (b.length > 3 ? `<span class="tag">+${b.length - 3}</span>` : '');
+};
+
+const stockTag = p => `<span class="st ${p.available === false ? 'out' : 'in'}">${p.available === false ? t('outstock') : t('instock')}</span>`;
+
+/* ---------- Shop with car filter ---------- */
+async function viewShop() {
+  document.title = 'ABDmoteur';
+  $('#app').innerHTML = `<section class="hero"><div><h1 class="word"><b>ABD</b><span>moteur</span></h1><p class="sub">${t('sub')}</p>
+    <div class="find"><h2>${t('findcar')}</h2><select id="fb" aria-label="${t('brand')}"></select><select id="fm" aria-label="${t('model')}"></select>
+    <input id="fq" type="search" placeholder="${t('search')}" value="${esc(q)}"><button class="btn alt" id="rs" style="grid-column:1/-1">${t('reset')}</button></div></div><div class="wheel" aria-hidden="true"></div></section>
+    <div id="chips" class="chips"></div><p id="cnt" class="cnt"></p><div id="list" class="grid"></div>`;
+  await loadProds(); ping();
+  const brands = [...new Set(prods.flatMap(brandsOf))].sort();
+  $('#fb').innerHTML = `<option value="">${t('allb')}</option>` + brands.map(b => `<option ${b === fb ? 'selected' : ''}>${esc(b)}</option>`).join('');
+  const fillModels = () => {
+    const ms = [...new Map(prods.flatMap(p => (p.compat || []).filter(c => c.brand === fb && c.model).map(c => [c.model.toLowerCase(), c.model]))).values()].sort();
+    $('#fm').innerHTML = `<option value="">${t('allm')}</option>` + ms.map(m => `<option ${m === fm ? 'selected' : ''}>${esc(m)}</option>`).join('');
+    $('#fm').disabled = !fb;
+  };
+  const match = p => (!cat || p.category === cat) && (!q || (p.name + ' ' + (p.description || '')).toLowerCase().includes(q.toLowerCase())) &&
+    (!fb || p.universal || (p.compat || []).some(c => c.brand === fb && (!fm || !c.model || c.model.toLowerCase() === fm.toLowerCase())));
+  const draw = () => {
+    const cats = [...new Set(prods.map(p => p.category).filter(Boolean))];
+    $('#chips').innerHTML = [''].concat(cats).map(c => `<button class="chip ${c === cat ? 'on' : ''}" data-c="${esc(c)}">${c ? esc(c) : t('all')}</button>`).join('');
+    const list = prods.filter(match);
+    $('#cnt').textContent = list.length + ' / ' + prods.length;
+    $('#list').innerHTML = list.length ? list.map(p => `<article class="prod ${p.available === false ? 'off' : ''}"><a class="pic" href="/p/${esc(p.id)}">${p.image ? `<img loading="lazy" src="${esc(p.image)}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}</a>
+      <div><div class="tags">${stockTag(p)}${tagsOf(p)}</div><a class="pname" href="/p/${esc(p.id)}">${esc(p.name)}</a><span class="price">${money(p.price)}</span><button class="btn" data-id="${esc(p.id)}" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button></div></article>`).join('')
+      : `<p class="empty" style="grid-column:1/-1">${prods.length ? t('nores') : t('noprod')}</p>`;
+  };
+  fillModels(); draw();
+  $('#fb').onchange = e => { fb = e.target.value; fm = ''; fillModels(); draw(); };
+  $('#fm').onchange = e => { fm = e.target.value; draw(); };
+  $('#fq').oninput = e => { q = e.target.value.trim(); draw(); };
+  $('#rs').onclick = () => { fb = fm = q = cat = ''; viewShop(); };
+  $('#chips').onclick = e => { if (e.target.dataset.c !== undefined) { cat = e.target.dataset.c; draw(); } };
+  $('#list').onclick = e => { const id = e.target.dataset.id; if (id) { cart[id] = (cart[id] || 0) + 1; saveCart(); e.target.textContent = '✓'; setTimeout(() => e.target.textContent = t('add'), 700); } };
+}
+
+/* ---------- Product page (own link: /p/ID) ---------- */
+async function viewProduct(id) {
+  await loadProds(); ping();
+  const p = prods.find(x => x.id === id);
+  if (!p) { $('#app').innerHTML = `<div class="panel empty">${t('pnf')}<br><br><a class="btn" href="/">${t('back')}</a></div>`; return; }
+  document.title = p.name + ' | ABDmoteur';
+  const url = location.origin + '/p/' + p.id;
+  const comp = (p.universal ? `<li>${t('univ')}</li>` : '') + (p.compat || []).map(c => `<li>${esc(c.brand)} ${c.model ? esc(c.model) : '(' + t('allm') + ')'}</li>`).join('');
+  $('#app').innerHTML = `<p style="margin-bottom:14px"><a href="/">← ${t('back')}</a></p><div class="panel pp">
+    ${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}
+    <div><h1>${esc(p.name)}</h1>${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''} ${stockTag(p)}<span class="price"><em>${money(p.price)}</em></span>
+    <h3>${t('compat')}</h3><ul>${comp}</ul>${p.description ? `<p style="margin-bottom:16px;line-height:1.7">${esc(p.description)}</p>` : ''}
+    <button class="btn" id="ad" style="margin-bottom:18px" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button>
+    <h3>${t('share')}</h3><div class="row" style="margin-top:8px">
+      <a class="btn alt sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(p.name + ' ' + url)}">WhatsApp</a>
+      <a class="btn alt sm" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">Facebook</a>
+      <button class="btn alt sm" id="cp">${t('copy')}</button></div></div></div>`;
+  $('#ad').onclick = e => { cart[p.id] = (cart[p.id] || 0) + 1; saveCart(); e.target.textContent = '✓'; };
+  $('#cp').onclick = async e => { try { await navigator.clipboard.writeText(url); e.target.textContent = t('copied'); } catch { prompt(t('copy'), url); } };
+}
+
+/* ---------- Cart + checkout ---------- */
+async function viewCart() {
+  await loadProds();
+  let gone = false;
+  Object.keys(cart).forEach(id => { const p = prods.find(x => x.id === id); if (p && p.available === false) { delete cart[id]; gone = true; } });
+  if (gone) saveCart();
+  const lines = Object.entries(cart).map(([id, n]) => ({p: prods.find(x => x.id === id), n})).filter(x => x.p);
+  if (!lines.length) { $('#app').innerHTML = `<div class="panel empty">${flash || (gone ? t('unavail') : t('empty'))}<br><br><a class="btn" href="/">${t('back')}</a></div>`; flash = ''; return; }
+  const sub = lines.reduce((a, l) => a + l.p.price * l.n, 0);
+  $('#app').innerHTML = `<div class="panel" id="cl"><h2>${t('cart')}</h2>${gone ? `<p class="msg">${t('unavail')}</p>` : ''}${lines.map(l => `<div class="line"><span>${esc(l.p.name)}</span>
+    <span class="row"><button class="btn alt sm" data-d="${esc(l.p.id)}:-1">−</button><b>${l.n}</b><button class="btn alt sm" data-d="${esc(l.p.id)}:1">+</button>
+    <span>${money(l.p.price * l.n)}</span><button class="btn alt sm" data-d="${esc(l.p.id)}:x">${t('remove')}</button></span></div>`).join('')}</div>
+  <form class="panel form" id="ck"><h2>${t('checkout')}</h2><div id="m"></div>
+    <label>${t('name')}<input name="name" required maxlength="80" autocomplete="name"></label>
+    <label>${t('phone')}<input name="phone" required type="tel" pattern="[0-9+\\s]{9,15}" autocomplete="tel"></label>
+    <label>${t('wilaya')}<input name="wilaya" required maxlength="40"></label>
+    <label>${t('address')}<input name="address" maxlength="160" autocomplete="street-address"></label>
+    <label>${t('delivery')}<select name="delivery"><option value="home">${t('home')} — ${money(FEES.home)}</option><option value="desk">${t('desk')} — ${money(FEES.desk)}</option></select></label>
+    <p>${t('sub_')}: <b>${money(sub)}</b></p><p>${t('total')}: <b id="tot"></b></p><button class="btn">${t('confirm')}</button></form>`;
+  const tot = () => $('#tot').textContent = money(sub + FEES[$('#ck').delivery.value]);
+  tot(); $('#ck').delivery.onchange = tot;
+  $('#cl').onclick = e => {
+    const d = e.target.dataset.d; if (!d) return; const [id, a] = d.split(':');
+    if (a === 'x' || (cart[id] += +a) <= 0) delete cart[id]; saveCart(); viewCart();
+  };
+  $('#ck').onsubmit = async e => {
+    e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+    try {
+      await jpost('/orders', {...f, items: Object.entries(cart).map(([id, qty]) => ({id, qty}))});
+      cart = {}; saveCart(); flash = t('ok'); viewCart();
+    } catch { $('#m').innerHTML = `<p class="msg">${t('err')}</p>`; }
+  };
+}
+
+/* ---------- Admin ---------- */
+function viewLogin() {
+  $('#app').innerHTML = `<form class="panel form" id="lg"><h2>${t('login')}</h2><div id="m"></div><label>${t('pass')}<input type="password" name="password" required autocomplete="current-password"></label><button class="btn">${t('enter')}</button></form>`;
+  $('#lg').onsubmit = async e => {
+    e.preventDefault();
+    try { const r = await jpost('/login', {password: e.target.password.value}); tok = r.token; sessionStorage.tok = tok; viewAdmin(); }
+    catch { $('#m').innerHTML = `<p class="msg">${t('err')}</p>`; }
+  };
+}
+function viewAdmin() {
+  $('#app').innerHTML = `<div class="tabs">${['products', 'orders', 'stats'].map(k => `<button class="btn ${tab === k ? '' : 'alt'}" data-t="${k}">${t(k)}</button>`).join('')}
+    <button class="btn alt" id="out">${t('logout')}</button></div><div id="tb"></div>`;
+  document.querySelector('.tabs').onclick = e => { if (e.target.dataset.t) { tab = e.target.dataset.t; viewAdmin(); } };
+  $('#out').onclick = () => { tok = ''; sessionStorage.tok = ''; location.hash = ''; };
+  ({products: tabProducts, orders: tabOrders, stats: tabStats})[tab]();
+}
+let editId = '';
+async function tabProducts() {
+  const list = await api('/products'); prods = list;
+  const ed = list.find(p => p.id === editId); if (!ed) editId = '';
+  let compat = ed ? (ed.compat || []).map(c => ({...c})) : [];
+  const cats = [...new Set(list.map(p => p.category).filter(Boolean))];
+  const v = k => esc(ed ? ed[k] || '' : '');
+  $('#tb').innerHTML = `<form class="panel form" id="pf"><h2>${editId ? t('edit') : t('addp')}</h2>
+    <label>${t('pname')}<input name="name" required maxlength="100" value="${v('name')}"></label>
+    <label>${t('price')}<input name="price" type="number" min="1" required value="${ed ? ed.price : ''}"></label>
+    <label>${t('cat')}<input name="category" maxlength="40" list="cl" value="${v('category')}"><datalist id="cl">${cats.map(c => `<option value="${esc(c)}">`).join('')}</datalist></label>
+    <label>${t('avail')}<select name="available"><option value="1">${t('instock')}</option><option value="0" ${ed && ed.available === false ? 'selected' : ''}>${t('outstock')}</option></select></label>
+    <fieldset class="fs"><legend>${t('compat')}</legend>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="universal" style="width:auto" ${ed && ed.universal ? 'checked' : ''}> ${t('univhint')}</label>
+      <div class="row"><input id="cb" list="bl" placeholder="${t('brand')}" maxlength="30" style="flex:1;min-width:130px"><datalist id="bl">${BRANDS.map(b => `<option value="${b}">`).join('')}</datalist>
+        <input id="cmod" placeholder="${t('model')}" maxlength="40" style="flex:1;min-width:130px"><button type="button" class="btn alt sm" id="ca">${t('addc')}</button></div>
+      <div id="cc" class="tags"></div></fieldset>
+    <label>${t('desc')}<textarea name="description" rows="3" maxlength="600">${v('description')}</textarea></label>
+    <label>${t('img')}${editId ? ' (' + t('keepimg') + ')' : ''}<input name="image" type="file" accept="image/*"></label>
+    <div class="row"><button class="btn">${editId ? t('upd') : t('save')}</button>${editId ? `<button type="button" class="btn alt" id="cx">${t('cancel')}</button>` : ''}</div></form>
+    <div class="panel" id="pl">${list.map(p => `<div class="line"><span class="row">${p.image ? `<img src="${esc(p.image)}" width="46" height="46" style="object-fit:cover;border-radius:8px" alt="">` : ''}
+      <span><b>${esc(p.name)}</b> — ${money(p.price)}<br><span class="tags">${tagsOf(p)}</span></span></span>
+      <span class="row"><button class="st ${p.available === false ? 'out' : 'in'}" data-a="${esc(p.id)}:${p.available === false ? 1 : 0}">${p.available === false ? t('outstock') : t('instock')}</button>
+      <a class="btn alt sm" target="_blank" href="/p/${esc(p.id)}">🔗</a><button class="btn alt sm" data-e="${esc(p.id)}">${t('edit')}</button><button class="btn alt sm" data-x="${esc(p.id)}">${t('del')}</button></span></div>`).join('') || `<p class="empty">${t('noprod')}</p>`}</div>`;
+  const dc = () => $('#cc').innerHTML = compat.map((c, i) => `<span class="tag x" data-i="${i}">${esc(c.brand)} ${esc(c.model)} ✕</span>`).join('') || `<small style="color:var(--mut)">${t('nocompat')}</small>`;
+  dc();
+  $('#ca').onclick = () => { const b = $('#cb').value.trim(); if (!b) return; compat.push({brand: b, model: $('#cmod').value.trim()}); $('#cb').value = ''; $('#cmod').value = ''; dc(); };
+  $('#cc').onclick = e => { const i = e.target.dataset.i; if (i !== undefined) { compat.splice(+i, 1); dc(); } };
+  if ($('#cx')) $('#cx').onclick = () => { editId = ''; tabProducts(); };
+  $('#pf').onsubmit = async e => {
+    e.preventDefault();
+    const b = $('#cb').value.trim(); if (b) compat.push({brand: b, model: $('#cmod').value.trim()});
+    const fd = new FormData(e.target);
+    fd.set('universal', e.target.universal.checked ? '1' : '0');
+    if (fd.get('universal') !== '1' && !compat.length) return alert(t('brandreq'));
+    fd.set('compat', JSON.stringify(compat));
+    if (!e.target.image.files[0]) fd.delete('image');
+    try { await api(editId ? '/products/' + editId : '/products', {method: editId ? 'PATCH' : 'POST', body: fd}); editId = ''; tabProducts(); }
+    catch { alert(t('err')); }
+  };
+  $('#pl').onclick = async e => {
+    const d = e.target.dataset;
+    if (d.x && confirm(t('del') + '?')) { await api('/products/' + d.x, {method: 'DELETE'}); tabProducts(); }
+    else if (d.e) { editId = d.e; await tabProducts(); window.scrollTo(0, 0); }
+    else if (d.a) { const [id, val] = d.a.split(':'); await jpost('/products/' + id, {available: val === '1'}, 'PATCH'); tabProducts(); }
+  };
+}
+async function tabOrders() {
+  const list = (await api('/orders')).sort((x, y) => y.createdAt - x.createdAt); // newest first
+  const dayKey = ts => { const d = new Date(ts); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); };
+  const todayK = dayKey(Date.now()), yestK = dayKey(Date.now() - 864e5), groups = [];
+  list.forEach(o => {
+    const k = dayKey(o.createdAt); let g = groups[groups.length - 1];
+    if (!g || g.k !== k) { g = {k, ts: o.createdAt, items: []}; groups.push(g); }
+    g.items.push(o);
+  });
+  const title = g => g.k === todayK ? t('today') : g.k === yestK ? t('yesterday')
+    : new Date(g.ts).toLocaleDateString(lang, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+  $('#tb').innerHTML = groups.map(g => `<h3 class="day">${esc(title(g))} <span>${g.items.length}</span></h3>` + g.items.map(o => `
+    <div class="order ${o.reviewed ? 'done' : 'new'}">
+      <div class="row"><span class="badge">${o.reviewed ? t('reviewed') : t('newo')}</span>
+        <span>${new Date(o.createdAt).toLocaleTimeString(lang, {hour: '2-digit', minute: '2-digit'})}</span></div>
+      <div><b>${esc(o.name)}</b> - ${esc(o.phone)}<br>${esc(o.wilaya)} ${esc(o.address)} (${t(o.delivery)})</div>
+      <div>${o.items.map(i => esc(i.name) + ' x' + i.qty).join('<br>')}</div>
+      <div><b>${money(o.total)}</b></div>
+      <div class="row">
+        <select style="width:auto" data-o="${esc(o.id)}">${['pending', 'shipped', 'delivered', 'cancelled'].map(s => `<option value="${s}" ${o.status === s ? 'selected' : ''}>${t(s)}</option>`).join('')}</select>
+        <button class="btn sm ${o.reviewed ? 'alt' : 'ok'}" data-r="${esc(o.id)}:${o.reviewed ? 0 : 1}">${o.reviewed ? t('unrev') : t('markrev')}</button>
+      </div></div>`).join('')).join('') || `<p class="empty">-</p>`;
+  $('#tb').onchange = e => { if (e.target.dataset.o) jpost('/orders/' + e.target.dataset.o, {status: e.target.value}, 'PATCH'); };
+  $('#tb').onclick = async e => {
+    const r = e.target.dataset.r; if (!r) return; const [id, v] = r.split(':');
+    await jpost('/orders/' + id, {reviewed: v === '1'}, 'PATCH'); tabOrders();
+  };
+}
+async function tabStats() {
+  const s = await api('/stats');
+  const bars = o => { const m = Math.max(1, ...Object.values(o)); return `<div class="bars">${Object.entries(o).map(([k, v]) => `<div><span>${esc(k)}</span><i style="width:${v / m * 100}%"></i><b>${v}</b></div>`).join('') || '—'}</div>`; };
+  const cards = [['revenue', money(s.revenue)], ['norders', s.orders], ['visits', s.visits], ['nprod', s.products], ['outstock', s.outofstock || 0], ['unreviewed', s.unreviewed || 0], ['pending', s.pending], ['shipped', s.shipped], ['delivered', s.delivered], ['cancelled', s.cancelled]];
+  $('#tb').innerHTML = `<div class="cards">${cards.map(([k, v]) => `<div class="stat"><b>${v}</b><span>${t(k)}</span></div>`).join('')}</div>
+  <div class="panel"><h3>${t('byd')}</h3>${bars(s.byDay)}</div><div class="panel"><h3>${t('vbd')}</h3>${bars(s.visitsByDay)}</div>
+  <div class="panel"><h3>${t('top')}</h3>${bars(s.top)}</div><div class="panel"><h3>${t('byw')}</h3>${bars(s.byWilaya)}</div>`;
+}
+
+setLang(lang);
+</script>
+</body>
+</html>
