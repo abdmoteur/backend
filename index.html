@@ -152,6 +152,9 @@ details.g details.g{margin-inline-start:14px}
 .dz>summary:hover,.dz[open]>summary{border-color:var(--red);color:var(--chrome)}
 .dz .ft-links{margin-top:12px}
 .ft-links a.ig{background:#E1306C;border-color:#E1306C}
+    .pager{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:26px 0 8px}
+.pager .chip{min-width:42px;text-align:center}
+.chip:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:22px}.shoplogo{width:min(220px,100%)}.pp{grid-template-columns:1fr}.bars div{grid-template-columns:80px 1fr 64px}}
 </style>
 </head>
@@ -206,7 +209,7 @@ const CONTACT = {
 const BRANDS=['Renault','Peugeot','Citroën','Dacia','Volkswagen','Seat','Skoda','Hyundai','Kia','Toyota','Nissan','Suzuki','Fiat','Chevrolet','Mercedes-Benz','BMW','Audi','Ford','Opel','Mazda','Mitsubishi','Honda','Chery','Geely','Jeep','Isuzu'];
 const FEES = {home:600, desk:400}; // keep in sync with server.js
 let lang = localStorage.lang || 'ar', cart = JSON.parse(localStorage.cart || '{}'), prods = [], tok = sessionStorage.tok || '', tab = 'products', flash = '';
-let cat = '', fb = '', fm = '', q = '';
+let cat = '', fb = '', fm = '', q = '', pg = 1;
 const $ = s => document.querySelector(s), t = k => L[lang][k] || k;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api = async (u, o = {}) => {
@@ -360,7 +363,7 @@ async function viewShop() {
   $('#app').innerHTML = `<section class="hero"><div><h1 class="word"><b>ABD</b><span>moteurs</span></h1><p class="sub">${t('sub')}</p>
     <div class="find"><h2>${t('findcar')}</h2><select id="fb" aria-label="${t('brand')}"></select><select id="fm" aria-label="${t('model')}"></select>
     <input id="fq" type="search" placeholder="${t('search')}" value="${esc(q)}"><button class="btn alt" id="rs" style="grid-column:1/-1">${t('reset')}</button></div></div><img class="shoplogo" src="${LOGO}" alt="ABDmoteurs"></section>
-    <div id="chips" class="chips"></div><p id="cnt" class="cnt"></p><div id="list" class="grid"></div>`;
+    <div id="chips" class="chips"></div><p id="cnt" class="cnt"></p><div id="list" class="grid"></div><div id="pager" class="pager" dir="ltr"></div>`;
   await loadProds(); ping();
   const brands = [...new Set(prods.flatMap(brandsOf))].sort();
   $('#fb').innerHTML = `<option value="">${t('allb')}</option>` + brands.map(b => `<option ${b === fb ? 'selected' : ''}>${esc(b)}</option>`).join('');
@@ -374,18 +377,22 @@ async function viewShop() {
   const draw = () => {
     const cats = [...new Set(prods.map(p => p.category).filter(Boolean))];
     $('#chips').innerHTML = [''].concat(cats).map(c => `<button class="chip ${c === cat ? 'on' : ''}" data-c="${esc(c)}">${c ? esc(c) : t('all')}</button>`).join('');
-    const list = prods.filter(match);
-    $('#cnt').textContent = list.length + ' / ' + prods.length;
+       const all = prods.filter(match), pages = Math.max(1, Math.ceil(all.length / 15));
+    if (pg > pages) pg = pages;
+    const list = all.slice((pg - 1) * 15, pg * 15);
+    $('#cnt').textContent = all.length + ' / ' + prods.length;
+    $('#pager').innerHTML = pages > 1 ? `<button class="chip" data-pg="${pg - 1}" ${pg === 1 ? 'disabled' : ''}>‹</button>` + Array.from({length: pages}, (_, i) => `<button class="chip ${i + 1 === pg ? 'on' : ''}" data-pg="${i + 1}">${i + 1}</button>`).join('') + `<button class="chip" data-pg="${pg + 1}" ${pg === pages ? 'disabled' : ''}>›</button>` : '';
     $('#list').innerHTML = list.length ? list.map(p => `<article class="prod ${p.available === false ? 'off' : ''}"><a class="pic" href="/p/${esc(p.id)}">${imgsOf(p)[0] ? `<img loading="lazy" src="${esc(cdn(imgsOf(p)[0], 500))}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}${imgsOf(p).length > 1 ? `<span class="ph">🖼 ${imgsOf(p).length}</span>` : ''}</a>
       <div><div class="tags">${stockTag(p)}${tagsOf(p)}</div><a class="pname" href="/p/${esc(p.id)}">${esc(p.name)}</a><span class="price">${money(p.price)}</span><button class="btn" data-id="${esc(p.id)}" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button></div></article>`).join('')
       : `<p class="empty" style="grid-column:1/-1">${prods.length ? t('nores') : t('noprod')}</p>`;
   };
   fillModels(); draw();
-  $('#fb').onchange = e => { fb = e.target.value; fm = ''; fillModels(); draw(); };
-  $('#fm').onchange = e => { fm = e.target.value; draw(); };
-  $('#fq').oninput = e => { q = e.target.value.trim(); draw(); };
-  $('#rs').onclick = () => { fb = fm = q = cat = ''; viewShop(); };
-  $('#chips').onclick = e => { if (e.target.dataset.c !== undefined) { cat = e.target.dataset.c; draw(); } };
+    $('#fb').onchange = e => { fb = e.target.value; fm = ''; pg = 1; fillModels(); draw(); };
+  $('#fm').onchange = e => { fm = e.target.value; pg = 1; draw(); };
+  $('#fq').oninput = e => { q = e.target.value.trim(); pg = 1; draw(); };
+  $('#rs').onclick = () => { fb = fm = q = cat = ''; pg = 1; viewShop(); };
+  $('#chips').onclick = e => { if (e.target.dataset.c !== undefined) { cat = e.target.dataset.c; pg = 1; draw(); } };
+  $('#pager').onclick = e => { const b = e.target.closest('button'); if (b && !b.disabled) { pg = +b.dataset.pg; draw(); $('#cnt').scrollIntoView({behavior: 'smooth'}); } };
   $('#list').onclick = e => { const id = e.target.dataset.id; if (id) { cart[id] = (cart[id] || 0) + 1; saveCart(); e.target.textContent = '✓'; setTimeout(() => e.target.textContent = t('add'), 700); toast(); } };
 }
 
