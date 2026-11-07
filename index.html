@@ -146,6 +146,12 @@ details.g details.g{margin-inline-start:14px}
 .ft-links .ic svg{width:24px;height:24px;display:block}
 .ft-addr{color:var(--mut);margin-top:14px}
 .ft-cp{color:var(--mut);font-size:13px;margin-top:14px}
+    .dz{margin-top:18px}
+.dz>summary{cursor:pointer;list-style:none;display:inline-block;background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 16px;font-size:14px;color:var(--mut)}
+.dz>summary::-webkit-details-marker{display:none}
+.dz>summary:hover,.dz[open]>summary{border-color:var(--red);color:var(--chrome)}
+.dz .ft-links{margin-top:12px}
+.ft-links a.ig{background:#E1306C;border-color:#E1306C}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:22px}.shoplogo{width:min(220px,100%)}.pp{grid-template-columns:1fr}.bars div{grid-template-columns:80px 1fr 64px}}
 </style>
 </head>
@@ -240,6 +246,28 @@ const ICONS = {
   tt: '<svg viewBox="-1.5 -1.5 27 27" aria-hidden="true"><path fill="#25F4EE" transform="translate(-.9 -.9)" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z"/><path fill="#FE2C55" transform="translate(.9 .9)" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z"/><path fill="#fff" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z"/></svg>',
   map: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'
 };
+
+/* ===== وسائل التواصل معك (مصمم الموقع): عدّل القيم هنا فقط ===== */
+const DESIGNER = {
+  whatsapp:  '213559523690',                        // واتساب بالصيغة الدولية بدون + ولا 0
+  phone:     '',                                    // رقم الهاتف (اختياري)
+  facebook:  'https://www.facebook.com/people/California-DSN/61556377404013/',  // فيسبوك
+  tiktok:    '',                                    // تيك توك
+  instagram: 'https://www.instagram.com/dzlogodesigner/'                                     // إنستغرام
+};
+function designer() {
+  const d = DESIGNER, digits = v => String(v).replace(/[^\d+]/g, ''), it = [];
+  const a = (cls, href, icon, label, ext = true) => `<a class="${cls}" ${ext ? 'target="_blank" rel="noopener" ' : ''}href="${esc(href)}">${icon ? `<span class="ic">${ICONS[icon]}</span>` : ''}<span>${label}</span></a>`;
+  if (d.whatsapp) it.push(a('wa', 'https://wa.me/' + digits(d.whatsapp).replace('+', ''), 'wa', 'WhatsApp'));
+  if (d.phone) it.push(a('tel', 'tel:' + digits(d.phone), 'phone', `<span dir="ltr">${esc(d.phone)}</span>`, false));
+  if (d.facebook) it.push(a('fbk', d.facebook, 'fb', 'Facebook'));
+  if (d.tiktok) it.push(a('tk', d.tiktok, 'tt', 'TikTok'));
+  if (d.instagram) it.push(a('ig', d.instagram, '', 'Instagram'));
+  if (!it.length) return '';
+  const title = {ar: 'تواصل مع مصمم الموقع', fr: 'Contacter le concepteur du site', en: 'Contact the website designer'}[lang];
+  return `<details class="dz"><summary>${title}</summary><div class="ft-links">${it.join('')}</div></details>`;
+}
+  
 function footer() {
   const c = CONTACT, digits = v => String(v).replace(/[^\d+]/g, ''), it = [];
   const btn = (cls, href, icon, label, ext = true) => `<a class="${cls}" ${ext ? 'target="_blank" rel="noopener" ' : ''}href="${esc(href)}"><span class="ic">${ICONS[icon]}</span><span>${label}</span></a>`;
@@ -248,7 +276,7 @@ function footer() {
   if (c.facebook) it.push(btn('fbk', c.facebook, 'fb', t('fbpage')));
   if (c.tiktok) it.push(btn('tk', c.tiktok, 'tt', t('tt')));
   if (c.map) it.push(btn('mp', c.map, 'map', t('loc')));
-  $('#ft').innerHTML = it.length || c.address ? `<div class="ft-in"><h3>${t('contact')}</h3><div class="ft-links">${it.join('')}</div>${c.address ? `<p class="ft-addr">${esc(c.address)}</p>` : ''}<p class="ft-cp">© ABDmoteurs</p></div>` : '';
+  $('#ft').innerHTML = it.length || c.address ? `<div class="ft-in"><h3>${t('contact')}</h3><div class="ft-links">${it.join('')}</div>${c.address ? `<p class="ft-addr">${esc(c.address)}</p>` : ''}<p class="ft-cp">© ABDmoteurs</p>${designer()}</div>` : '';
 }
 function setLang(l) {
   lang = l; localStorage.lang = l;
