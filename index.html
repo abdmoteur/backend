@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ABDmoteurs</title>
 <!--OG-->
-<style>
+
+  <style>
 :root{--red:#d7191f;--red2:#ff3b41;--bg:#0e1012;--steel:#181b1f;--steel2:#22262b;--line:#2f343a;--chrome:#eceef0;--mut:#9aa1a8;--green:#22a559}
 *{box-sizing:border-box;margin:0}
 body{font-family:'Segoe UI',system-ui,Tahoma,Arial,sans-serif;background:var(--bg) repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px);color:var(--chrome);min-height:100vh}
@@ -125,6 +126,14 @@ details.mo>summary{background:var(--steel2)}
 details.dy>summary{background:var(--steel)}
 details.g details.g{margin-inline-start:14px}
 .gb{padding:8px 0 4px}
+.only-new .order.done{display:none}
+.items{display:grid;gap:6px}
+.oi{display:flex;gap:10px;align-items:flex-start;padding:8px;background:rgba(0,0,0,.28);border-radius:8px}
+.oi img{width:56px;height:56px;object-fit:cover;border-radius:6px;flex:none}
+.oi>div{min-width:0}
+.oi small{display:block;color:var(--mut);line-height:1.55;margin-top:3px}
+.mycar{background:rgba(255,255,255,.08);border-radius:8px;padding:6px 10px}
+  .oi small.carline{background:rgba(215,25,31,.2);border-radius:6px;padding:4px 8px;color:var(--chrome)}
 .ft-in{max-width:1140px;margin:0 auto;padding:24px 18px 40px;border-top:2px solid var(--red);text-align:center}
 .ft-in h3{margin-bottom:14px}
 .ft-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
@@ -159,7 +168,7 @@ ar:{sub:'قطع غيار وإكسسوارات السيارات بجودة عال
  univhint:'المنتج يناسب كل السيارات',addc:'إضافة سيارة',nocompat:'لم تتم إضافة سيارات بعد',brandreq:'اختر السيارات المتوافقة أو فعّل "لكل السيارات".',
  share:'شارك المنتج',copy:'نسخ الرابط',copied:'تم النسخ',back:'العودة للمتجر',pnf:'المنتج غير موجود.',
  revenue:'الإيرادات',norders:'عدد الطلبات',visits:'الزيارات',nprod:'المنتجات',pending:'قيد الانتظار',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغى',top:'الأكثر مبيعا',byw:'الطلبات حسب الولاية',
- byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.',imgs:'صور المنتج (اختياري، حتى 6 صور)',mainhint:'النجمة ★ تجعل الصورة هي الرئيسية، و ✕ تحذفها.',max6:'الحد الأقصى 6 صور.',showpw:'إظهار/إخفاء كلمة المرور',contact:'تواصل معنا',call:'اتصل بنا',wa:'واتساب',fbpage:'فيسبوك',tt:'تيك توك',loc:'موقع المحل',added:'تمت إضافة المنتج إلى السلة',cartHint:'عندما تنتهي من اختيار منتجاتك، اضغط على «السلة» لتملأ معلوماتك وترسل طلبك.',gocart:'الذهاب إلى السلة وإرسال الطلب',close:'إغلاق',newshort:'جديد'},
+ byd:'الإيرادات اليومية',vbd:'الزيارات اليومية',da:'دج',client:'الزبون',today:'اليوم',yesterday:'الأمس',newo:'جديد - لم تتم المراجعة',reviewed:'تمت المراجعة - الطلب مقبول',markrev:'تأكيد المراجعة',unrev:'إلغاء المراجعة',unreviewed:'بانتظار المراجعة',status:'الحالة',instock:'متوفر',outstock:'غير متوفر',avail:'حالة التوفر',edit:'تعديل المنتج',cancel:'إلغاء',upd:'حفظ التعديلات',keepimg:'اتركها فارغة للإبقاء على الصورة الحالية',unavail:'تمت إزالة منتجات من السلة لأنها لم تعد متوفرة.',imgs:'صور المنتج (اختياري، حتى 6 صور)',mainhint:'النجمة ★ تجعل الصورة هي الرئيسية، و ✕ تحذفها.',max6:'الحد الأقصى 6 صور.',showpw:'إظهار/إخفاء كلمة المرور',contact:'تواصل معنا',call:'اتصل بنا',wa:'واتساب',fbpage:'فيسبوك',tt:'تيك توك',loc:'موقع المحل',added:'تمت إضافة المنتج إلى السلة',cartHint:'عندما تنتهي من اختيار منتجاتك، اضغط على «السلة» لتملأ معلوماتك وترسل طلبك.',gocart:'الذهاب إلى السلة وإرسال الطلب',close:'إغلاق',newshort:'جديد',refresh:'تحديث',onlynew:'الجديدة فقط',loadmore:'تحميل المزيد',rebuild:'إعادة حساب الإحصائيات',rebuilt:'تمت إعادة الحساب ✓',carlabel:'نوع سيارتك (اختياري)',mycar:'سيارة الزبون',toomany:'وصلت إلى الحد اليومي للطلبات من هذا الرقم. للمساعدة اتصل بنا.'},
 fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wilayas.',findcar:'Choisissez votre voiture',brand:'Marque',model:'Modèle',allb:'Toutes les marques',allm:'Tous les modèles',search:'Rechercher un produit',reset:'Réinitialiser',
  all:'Tout',add:'Ajouter au panier',cart:'Panier',total:'Total',sub_:'Sous-total',fee:'Livraison',name:'Nom complet',phone:'Téléphone',wilaya:'Wilaya',address:'Adresse',delivery:'Mode de livraison',
  home:'À domicile',desk:'Au bureau',confirm:'Confirmer la commande',ok:'Commande reçue. Nous vous appellerons bientôt pour la confirmer.',empty:'Le panier est vide.',noprod:'Aucun produit pour le moment.',nores:'Aucun produit pour cette voiture.',
@@ -168,7 +177,7 @@ fr:{sub:'Pièces et accessoires auto de qualité, livraison dans toutes les wila
  univhint:'Convient à toutes les voitures',addc:'Ajouter la voiture',nocompat:'Aucune voiture ajoutée',brandreq:'Ajoutez des voitures compatibles ou cochez "Toutes voitures".',
  share:'Partager le produit',copy:'Copier le lien',copied:'Copié',back:'Retour à la boutique',pnf:'Produit introuvable.',
  revenue:'Revenus',norders:'Commandes',visits:'Visites',nprod:'Produits',pending:'En attente',shipped:'Expédiée',delivered:'Livrée',cancelled:'Annulée',top:'Meilleures ventes',byw:'Commandes par wilaya',
- byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.',imgs:'Photos du produit (optionnel, jusqu\'à 6)',mainhint:'★ définit la photo principale, ✕ la supprime.',max6:'Maximum 6 photos.',showpw:'Afficher/masquer le mot de passe',contact:'Contactez-nous',call:'Appelez-nous',wa:'WhatsApp',fbpage:'Facebook',tt:'TikTok',loc:'Localisation du magasin',added:'Produit ajouté au panier',cartHint:'Quand vous avez fini de choisir vos produits, cliquez sur « Panier » pour remplir vos informations et envoyer votre commande.',gocart:'Aller au panier et commander',close:'Fermer',newshort:'nouvelle(s)'},
+ byd:'Revenus par jour',vbd:'Visites par jour',da:'DA',client:'Client',today:"Aujourd'hui",yesterday:'Hier',newo:'Nouvelle - non vérifiée',reviewed:'Vérifiée - commande acceptée',markrev:'Confirmer la vérification',unrev:'Annuler la vérification',unreviewed:'À vérifier',status:'Statut',instock:'Disponible',outstock:'Indisponible',avail:'Disponibilité',edit:'Modifier le produit',cancel:'Annuler',upd:'Enregistrer les modifications',keepimg:'laisser vide pour garder l\'image actuelle',unavail:'Des produits ont été retirés du panier car ils ne sont plus disponibles.',imgs:'Photos du produit (optionnel, jusqu\'à 6)',mainhint:'★ définit la photo principale, ✕ la supprime.',max6:'Maximum 6 photos.',showpw:'Afficher/masquer le mot de passe',contact:'Contactez-nous',call:'Appelez-nous',wa:'WhatsApp',fbpage:'Facebook',tt:'TikTok',loc:'Localisation du magasin',added:'Produit ajouté au panier',cartHint:'Quand vous avez fini de choisir vos produits, cliquez sur « Panier » pour remplir vos informations et envoyer votre commande.',gocart:'Aller au panier et commander',close:'Fermer',newshort:'nouvelle(s)',refresh:'Actualiser',onlynew:'Nouvelles seulement',loadmore:'Charger plus',rebuild:'Recalculer les statistiques',rebuilt:'Recalcul terminé ✓',carlabel:'Votre voiture (optionnel)',mycar:'Voiture du client',toomany:'Limite quotidienne de commandes atteinte pour ce numéro. Contactez-nous.'},
 en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:'Choose your car',brand:'Brand',model:'Model',allb:'All brands',allm:'All models',search:'Search a product',reset:'Clear filter',
  all:'All',add:'Add to cart',cart:'Cart',total:'Total',sub_:'Subtotal',fee:'Delivery',name:'Full name',phone:'Phone',wilaya:'Wilaya',address:'Address',delivery:'Delivery type',
  home:'Home delivery',desk:'Desk pickup',confirm:'Place order',ok:'Order received. We will call you soon to confirm it.',empty:'Your cart is empty.',noprod:'No products yet.',nores:'No products match this car.',
@@ -177,7 +186,7 @@ en:{sub:'Quality car parts and accessories, delivered to every wilaya.',findcar:
  univhint:'Fits all cars',addc:'Add car',nocompat:'No cars added yet',brandreq:'Add compatible cars or tick "Fits all cars".',
  share:'Share this product',copy:'Copy link',copied:'Copied',back:'Back to store',pnf:'Product not found.',
  revenue:'Revenue',norders:'Orders',visits:'Visits',nprod:'Products',pending:'Pending',shipped:'Shipped',delivered:'Delivered',cancelled:'Cancelled',top:'Best sellers',byw:'Orders by wilaya',
- byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.',imgs:'Product photos (optional, up to 6)',mainhint:'★ sets the main photo, ✕ removes it.',max6:'Maximum 6 photos.',showpw:'Show/hide password',contact:'Contact us',call:'Call us',wa:'WhatsApp',fbpage:'Facebook',tt:'TikTok',loc:'Store location',added:'Added to your cart',cartHint:'When you have finished choosing your products, tap “Cart” to fill in your details and send your order.',gocart:'Go to cart and order',close:'Close',newshort:'new'}
+ byd:'Revenue per day',vbd:'Visits per day',da:'DA',client:'Customer',today:'Today',yesterday:'Yesterday',newo:'New - not reviewed',reviewed:'Reviewed - order accepted',markrev:'Mark as reviewed',unrev:'Undo review',unreviewed:'To review',status:'Status',instock:'In stock',outstock:'Out of stock',avail:'Availability',edit:'Edit product',cancel:'Cancel',upd:'Save changes',keepimg:'leave empty to keep the current image',unavail:'Some items were removed from your cart because they are no longer available.',imgs:'Product photos (optional, up to 6)',mainhint:'★ sets the main photo, ✕ removes it.',max6:'Maximum 6 photos.',showpw:'Show/hide password',contact:'Contact us',call:'Call us',wa:'WhatsApp',fbpage:'Facebook',tt:'TikTok',loc:'Store location',added:'Added to your cart',cartHint:'When you have finished choosing your products, tap “Cart” to fill in your details and send your order.',gocart:'Go to cart and order',close:'Close',newshort:'new',refresh:'Refresh',onlynew:'New only',loadmore:'Load more',rebuild:'Recalculate statistics',rebuilt:'Recalculated ✓',carlabel:'Your car (optional)',mycar:'Customer car',toomany:'Daily order limit reached for this phone number. Please contact us.'}
 };
 /* ===== معلومات المحل: عدّل القيم هنا فقط (اترك القيمة فارغة '' لإخفاء العنصر) ===== */
 const CONTACT = {
@@ -400,6 +409,7 @@ async function viewCart() {
     <label>${t('phone')}<input name="phone" required type="tel" pattern="[0-9+\\s]{9,15}" autocomplete="tel"></label>
     <label>${t('wilaya')}<input name="wilaya" required maxlength="40"></label>
     <label>${t('address')}<input name="address" maxlength="160" autocomplete="street-address"></label>
+    <label>${t('carlabel')}<input name="car" maxlength="80" value="${esc([fb, fm].filter(Boolean).join(' '))}" placeholder="Renault Clio 4 2016"></label>
     <label>${t('delivery')}<select name="delivery"><option value="home">${t('home')} — ${money(FEES.home)}</option><option value="desk">${t('desk')} — ${money(FEES.desk)}</option></select></label>
     <p>${t('sub_')}: <b>${money(sub)}</b></p><p>${t('total')}: <b id="tot"></b></p><button class="btn">${t('confirm')}</button></form>`;
   const tot = () => $('#tot').textContent = money(sub + FEES[$('#ck').elements.delivery.value]);
@@ -413,7 +423,7 @@ async function viewCart() {
     try {
       await jpost('/orders', {...f, items: Object.entries(cart).map(([id, qty]) => ({id, qty}))});
       cart = {}; saveCart(); flash = t('ok'); viewCart();
-    } catch { $('#m').innerHTML = `<p class="msg">${t('err')}</p>`; }
+    } catch (err) { $('#m').innerHTML = `<p class="msg">${err.message === '429' ? t('toomany') : t('err')}</p>`; }
   };
 }
 
@@ -514,49 +524,105 @@ async function tabProducts() {
     else if (d.a) { const [id, val] = d.a.split(':'); await jpost('/products/' + id, {available: val === '1'}, 'PATCH'); tabProducts(); }
   };
 }
-const openG = new Set(); // remembers which year/month/day folders are open
-async function tabOrders() {
-  const list = (await api('/orders')).sort((x, y) => y.createdAt - x.createdAt); // newest first
-  const tree = {};
-  list.forEach(o => {
-    const d = new Date(o.createdAt), y = d.getFullYear(), m = d.getMonth(), n = d.getDate();
-    tree[y] = tree[y] || {}; tree[y][m] = tree[y][m] || {}; tree[y][m][n] = tree[y][m][n] || [];
-    tree[y][m][n].push(o);
-  });
-  const keys = o => Object.keys(o).map(Number).sort((a, b) => b - a); // newest first
-  const todayK = new Date().toDateString(), yestK = new Date(Date.now() - 864e5).toDateString();
-  const meta = arr => { const nw = arr.filter(o => !o.reviewed && o.status !== 'cancelled').length;
-    return `<span class="meta">${t('orders')}: ${arr.length}${nw ? `<span class="nb">${nw} ${t('newshort')}</span>` : ''}</span>`; };
-  const grp = (key, cls, title, arr, inner) => `<details class="g ${cls}" data-k="${key}" ${openG.has(key) ? 'open' : ''}><summary><span class="ttl">${esc(title)}</span>${meta(arr)}</summary><div class="gb">${inner}</div></details>`;
-  const card = o => `
-    <div class="order ${o.reviewed ? 'done' : 'new'}">
+const openG = new Set();   // which year/month/day folders are open
+const dayData = {};        // day -> {orders, more, loaded, loading}   (orders are loaded only when a day is opened)
+let dayStats = {};         // day -> {orders, unreviewed}
+let onlyNew = false;
+const isNewO = o => !o.reviewed && o.status !== 'cancelled';
+const carsOf = i => i.universal ? t('univ') : (i.compat || []).map(c => c.brand + (c.model ? ' ' + c.model : '')).join(', ');
+const itemH = i0 => {
+  const lv = prods.find(p => p.id === i0.id) || {};
+  const i = {...i0,
+    universal: i0.universal || lv.universal,
+    compat: (i0.compat && i0.compat.length) ? i0.compat : (lv.compat || []),
+    category: i0.category || lv.category,
+    description: i0.description || lv.description,
+    image: i0.image || lv.image};
+  const cars = carsOf(i);
+  return `<div class="oi">${i.image ? `<a href="/p/${esc(i.id)}" target="_blank" rel="noopener"><img src="${esc(cdn(i.image, 160))}" alt=""></a>` : ''}<div><b>${esc(i.name)}</b> × ${i.qty}${i.price ? ` — ${money(i.price)}` : ''}
+        ${i.category ? `<span class="tag">${esc(i.category)}</span>` : ''}
+        <small class="carline">🚗 ${t('compat')}: ${cars ? esc(cars) : '—'}</small>
+        ${i.description ? `<small>${esc(i.description)}</small>` : ''}
+        ${i.id ? `<small><a href="/p/${esc(i.id)}" target="_blank" rel="noopener">🔗 #${esc(String(i.id).slice(0, 6).toUpperCase())}</a></small>` : ''}</div></div>`;
+};
+const orderCard = o => `
+    <div class="order ${o.reviewed ? 'done' : 'new'}" data-oid="${esc(o.id)}">
       <div class="row"><span class="badge">${o.reviewed ? t('reviewed') : t('newo')}</span>
         <span>${new Date(o.createdAt).toLocaleTimeString(lang, {hour: '2-digit', minute: '2-digit'})}</span></div>
       <div><b>${esc(o.name)}</b> - ${esc(o.phone)}<br>${esc(o.wilaya)} ${esc(o.address)} (${t(o.delivery)})</div>
-      <div>${o.items.map(i => esc(i.name) + ' x' + i.qty).join('<br>')}</div>
+      ${o.car ? `<div class="mycar">🚗 ${t('mycar')}: <b>${esc(o.car)}</b></div>` : ''}
+      <div class="items">${o.items.map(itemH).join('')}</div>
       <div><b>${money(o.total)}</b></div>
       <div class="row">
         <select style="width:auto" data-o="${esc(o.id)}">${['pending', 'shipped', 'delivered', 'cancelled'].map(s => `<option value="${s}" ${o.status === s ? 'selected' : ''}>${t(s)}</option>`).join('')}</select>
         <button class="btn sm ${o.reviewed ? 'alt' : 'ok'}" data-r="${esc(o.id)}:${o.reviewed ? 0 : 1}">${o.reviewed ? t('unrev') : t('markrev')}</button>
       </div></div>`;
-  $('#tb').innerHTML = keys(tree).map(y => {
-    const months = tree[y], yArr = Object.values(months).flatMap(m => Object.values(m).flat());
-    return grp('y' + y, 'yr', String(y), yArr, keys(months).map(m => {
-      const days = months[m], mArr = Object.values(days).flat();
-      return grp('m' + y + '-' + m, 'mo', new Date(y, m, 1).toLocaleDateString(lang, {month: 'long', year: 'numeric'}), mArr, keys(days).map(n => {
-        const dArr = days[n], dt = new Date(y, m, n);
-        const title = dt.toDateString() === todayK ? t('today') : dt.toDateString() === yestK ? t('yesterday')
-          : dt.toLocaleDateString(lang, {weekday: 'long', day: 'numeric', month: 'long'});
-        return grp('d' + y + '-' + m + '-' + n, 'dy', title, dArr, dArr.map(card).join(''));
-      }).join(''));
-    }).join(''));
-  }).join('') || `<p class="empty">-</p>`;
-  $('#tb').querySelectorAll('details.g').forEach(d => d.ontoggle = () => d.open ? openG.add(d.dataset.k) : openG.delete(d.dataset.k));
-  $('#tb').onchange = e => { if (e.target.dataset.o) jpost('/orders/' + e.target.dataset.o, {status: e.target.value}, 'PATCH'); };
-  $('#tb').onclick = async e => {
-    const r = e.target.dataset.r; if (!r) return; const [id, v] = r.split(':');
-    const y = window.scrollY;
-    await jpost('/orders/' + id, {reviewed: v === '1'}, 'PATCH'); await tabOrders(); window.scrollTo(0, y);
+const sumDays = p => { let n = 0, nw = 0; for (const k in dayStats) if (k.startsWith(p)) { n += dayStats[k].orders; nw += dayStats[k].unreviewed; } return {n, nw}; };
+const metaH = p => { const s = sumDays(p); return `${t('orders')}: ${s.n}${s.nw > 0 ? `<span class="nb">${s.nw} ${t('newshort')}</span>` : ''}`; };
+function refreshMeta() {
+  $('#tb').querySelectorAll('details.g').forEach(d => { const m = d.querySelector(':scope > summary .meta'); if (m) m.innerHTML = metaH(d.dataset.p); });
+}
+function paintDay(day) {
+  const gb = $('#tb').querySelector(`.gb[data-day="${day}"]`), st = dayData[day]; if (!gb || !st) return;
+  gb.innerHTML = st.orders.map(orderCard).join('')
+    + (st.loading ? '<p class="empty">…</p>' : '')
+    + (st.more && !st.loading ? `<button class="btn alt" data-more="${day}">${t('loadmore')}</button>` : '')
+    + (st.loaded && !st.loading && !st.orders.length ? '<p class="empty">-</p>' : '');
+}
+async function loadDay(day, more = false) {
+  const st = dayData[day] = dayData[day] || {orders: [], more: false, loaded: false, loading: false};
+  if (st.loading || (st.loaded && !more)) return;
+  st.loading = true; paintDay(day);
+  try {
+    const before = more && st.orders.length ? st.orders[st.orders.length - 1].createdAt : '';
+    const r = await api('/orders?day=' + day + (before ? '&before=' + before : ''));
+    st.orders = st.orders.concat(r.orders); st.more = r.more; st.loaded = true;
+  } catch { /* shows the button again below */ }
+  st.loading = false; paintDay(day);
+}
+async function changeOrder(id, patch) {
+  let day, o;
+  for (const d in dayData) { const f = dayData[d].orders.find(x => x.id === id); if (f) { day = d; o = f; break; } }
+  if (!o) return;
+  const wasNew = isNewO(o), old = {reviewed: o.reviewed, status: o.status};
+  try { await jpost('/orders/' + id, patch, 'PATCH'); Object.assign(o, patch); }
+  catch { alert(t('err')); Object.assign(o, old); }
+  if (dayStats[day]) dayStats[day].unreviewed += (isNewO(o) ? 1 : 0) - (wasNew ? 1 : 0);
+  const el = $('#tb').querySelector(`[data-oid="${id}"]`); if (el) el.outerHTML = orderCard(o);
+  refreshMeta();
+}
+async function tabOrders() {
+  await loadProds();
+  const r = await api('/orders/days');
+  dayStats = {}; r.days.forEach(d => { dayStats[d.day] = d; });
+  Object.keys(dayData).forEach(k => delete dayData[k]);
+  const algDay = ts => new Date(ts + 36e5).toISOString().slice(0, 10); // Algeria time, same as the server
+  const todayK = algDay(Date.now()), yestK = algDay(Date.now() - 864e5);
+  const days = Object.keys(dayStats).sort().reverse(), uniq = a => [...new Set(a)];
+  const grp = (k, cls, title, p, inner) => `<details class="g ${cls}" data-k="${k}" data-p="${p}" ${openG.has(k) ? 'open' : ''}><summary><span class="ttl">${esc(title)}</span><span class="meta">${metaH(p)}</span></summary><div class="gb"${cls === 'dy' ? ` data-day="${p}"` : ''}>${inner}</div></details>`;
+  const tree = uniq(days.map(d => d.slice(0, 4))).map(y => grp('y' + y, 'yr', y, y,
+    uniq(days.filter(d => d.startsWith(y)).map(d => d.slice(0, 7))).map(m =>
+      grp('m' + m, 'mo', new Date(+y, +m.slice(5) - 1, 1).toLocaleDateString(lang, {month: 'long', year: 'numeric'}), m,
+        days.filter(d => d.startsWith(m)).map(d => grp('d' + d, 'dy',
+          d === todayK ? t('today') : d === yestK ? t('yesterday')
+            : new Date(+y, +d.slice(5, 7) - 1, +d.slice(8)).toLocaleDateString(lang, {weekday: 'long', day: 'numeric', month: 'long'}),
+          d, '')).join(''))).join(''))).join('');
+  $('#tb').innerHTML = `<div class="row" style="margin-bottom:14px"><button class="btn alt sm" id="rf">${t('refresh')}</button>
+    <label style="display:flex;flex-direction:row;gap:6px;align-items:center"><input type="checkbox" id="onlynew" style="width:auto" ${onlyNew ? 'checked' : ''}> ${t('onlynew')}</label></div>`
+    + (tree || `<p class="empty">-</p>`);
+  $('#tb').classList.toggle('only-new', onlyNew);
+  $('#tb').querySelectorAll('details.g').forEach(d => d.ontoggle = () => {
+    if (d.open) openG.add(d.dataset.k); else openG.delete(d.dataset.k);
+    if (d.open && d.classList.contains('dy')) loadDay(d.dataset.p);
+  });
+  $('#tb').querySelectorAll('details.dy[open]').forEach(d => loadDay(d.dataset.p));
+  $('#onlynew').onchange = e => { onlyNew = e.target.checked; $('#tb').classList.toggle('only-new', onlyNew); };
+  $('#tb').onchange = e => { if (e.target.dataset.o) changeOrder(e.target.dataset.o, {status: e.target.value}); };
+  $('#tb').onclick = e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'rf') return tabOrders();
+    if (b.dataset.more) return loadDay(b.dataset.more, true);
+    if (b.dataset.r) { const [id, v] = b.dataset.r.split(':'); changeOrder(id, {reviewed: v === '1'}); }
   };
 }
 async function tabStats() {
@@ -565,7 +631,13 @@ async function tabStats() {
   const cards = [['revenue', money(s.revenue)], ['norders', s.orders], ['visits', s.visits], ['nprod', s.products], ['outstock', s.outofstock || 0], ['unreviewed', s.unreviewed || 0], ['pending', s.pending], ['shipped', s.shipped], ['delivered', s.delivered], ['cancelled', s.cancelled]];
   $('#tb').innerHTML = `<div class="cards">${cards.map(([k, v]) => `<div class="stat"><b>${v}</b><span>${t(k)}</span></div>`).join('')}</div>
   <div class="panel"><h3>${t('byd')}</h3>${bars(s.byDay)}</div><div class="panel"><h3>${t('vbd')}</h3>${bars(s.visitsByDay)}</div>
-  <div class="panel"><h3>${t('top')}</h3>${bars(s.top)}</div><div class="panel"><h3>${t('byw')}</h3>${bars(s.byWilaya)}</div>`;
+  <div class="panel"><h3>${t('top')}</h3>${bars(s.top)}</div><div class="panel"><h3>${t('byw')}</h3>${bars(s.byWilaya)}</div>
+  <div class="panel row"><button class="btn alt sm" id="rb">${t('rebuild')}</button><span id="rbm" style="color:var(--mut)"></span></div>`;
+  $('#rb').onclick = async e => {
+    e.target.disabled = true;
+    try { await jpost('/rebuild', {}); $('#rbm').textContent = t('rebuilt'); setTimeout(tabStats, 900); }
+    catch { e.target.disabled = false; alert(t('err')); }
+  };
 }
 
 setLang(lang);
