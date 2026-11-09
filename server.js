@@ -216,6 +216,10 @@ app.post('/api/login', (req, res) => {
   res.status(401).json({ error: 'bad password' });
 });
 
+
+app.get('/ping', (req, res) => res.type('text').send('ok'));
+
+  
 app.get('/api/products', wrap(async (req, res) => {
   const c = await getProducts();
   res.set({ 'Content-Type': 'application/json; charset=utf-8', 'ETag': c.etag, 'Cache-Control': 'no-cache', 'Vary': 'Accept-Encoding' });
