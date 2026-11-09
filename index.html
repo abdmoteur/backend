@@ -235,6 +235,10 @@ const FEES = {home:600, desk:400}; // keep in sync with server.js
   Object.assign(L.ar,{commune:'البلدية',choose:'اختر...',othercom:'أخرى (اكتب بلديتك)',typecom:'اكتب اسم بلديتك'});
 Object.assign(L.fr,{commune:'Commune',choose:'Choisir...',othercom:'Autre (écrire ma commune)',typecom:'Écrivez votre commune'});
 Object.assign(L.en,{commune:'Commune',choose:'Choose...',othercom:'Other (type my commune)',typecom:'Type your commune'});
+Object.assign(L.ar,{pnameAr:'اسم المنتج بالعربية',pnameFr:'اسم المنتج بالفرنسية'});
+Object.assign(L.fr,{pnameAr:'Nom du produit en arabe',pnameFr:'Nom du produit en français'});
+Object.assign(L.en,{pnameAr:'Product name in Arabic',pnameFr:'Product name in French'});
+  
 const WILAYAS=[['01','أدرار','Adrar'],['02','الشلف','Chlef'],['03','الأغواط','Laghouat'],['04','أم البواقي','Oum El Bouaghi'],['05','باتنة','Batna'],['06','بجاية','Béjaïa'],['07','بسكرة','Biskra'],['08','بشار','Béchar'],['09','البليدة','Blida'],['10','البويرة','Bouira'],['11','تمنراست','Tamanrasset'],['12','تبسة','Tébessa'],['13','تلمسان','Tlemcen'],['14','تيارت','Tiaret'],['15','تيزي وزو','Tizi Ouzou'],['16','الجزائر','Alger'],['17','الجلفة','Djelfa'],['18','جيجل','Jijel'],['19','سطيف','Sétif'],['20','سعيدة','Saïda'],['21','سكيكدة','Skikda'],['22','سيدي بلعباس','Sidi Bel Abbès'],['23','عنابة','Annaba'],['24','قالمة','Guelma'],['25','قسنطينة','Constantine'],['26','المدية','Médéa'],['27','مستغانم','Mostaganem'],['28','المسيلة',"M'Sila"],['29','معسكر','Mascara'],['30','ورقلة','Ouargla'],['31','وهران','Oran'],['32','البيض','El Bayadh'],['33','إليزي','Illizi'],['34','برج بوعريريج','Bordj Bou Arréridj'],['35','بومرداس','Boumerdès'],['36','الطارف','El Tarf'],['37','تندوف','Tindouf'],['38','تيسمسيلت','Tissemsilt'],['39','الوادي','El Oued'],['40','خنشلة','Khenchela'],['41','سوق أهراس','Souk Ahras'],['42','تيبازة','Tipaza'],['43','ميلة','Mila'],['44','عين الدفلى','Aïn Defla'],['45','النعامة','Naâma'],['46','عين تموشنت','Aïn Témouchent'],['47','غرداية','Ghardaïa'],['48','غليزان','Relizane'],['49','تيميمون','Timimoun'],['50','برج باجي مختار','Bordj Badji Mokhtar'],['51','أولاد جلال','Ouled Djellal'],['52','بني عباس','Béni Abbès'],['53','عين صالح','In Salah'],['54','عين قزام','In Guezzam'],['55','تقرت','Touggourt'],['56','جانت','Djanet'],['57','المغير',"El M'Ghair"],['58','المنيعة','El Menia'],['59','أفلو','Aflou'],['60','بريكة','Barika'],['61','القنطرة','El Kantara'],['62','بئر العاتر','Bir El Ater'],['63','العريشة','El Aricha'],['64','قصر الشلالة','Ksar Chellala'],['65','عين وسارة','Aïn Oussara'],['66','مسعد','Messaad'],['67','قصر البخاري','Ksar El Boukhari'],['68','بوسعادة','Bou Saâda'],['69','الأبيض سيدي الشيخ','El Abiodh Sidi Cheikh']];
 let COM = null;
 const loadCom = async () => {
@@ -251,6 +255,7 @@ let lang = localStorage.lang || 'ar', cart = JSON.parse(localStorage.cart || '{}
 let cat = '', fb = '', fm = '', q = '', pg = 1;
 const $ = s => document.querySelector(s), t = k => L[lang][k] || k;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const pn = p => (lang === 'ar' ? (p.nameAr || p.nameFr || p.name) : (p.nameFr || p.nameAr || p.name)) || '';
 const api = async (u, o = {}) => {
   o.headers = {...(o.headers || {}), ...(tok ? {Authorization: 'Bearer ' + tok} : {})};
   const r = await fetch('/api' + u, o);
@@ -411,7 +416,7 @@ async function viewShop() {
     $('#fm').innerHTML = `<option value="">${t('allm')}</option>` + ms.map(m => `<option ${m === fm ? 'selected' : ''}>${esc(m)}</option>`).join('');
     $('#fm').disabled = !fb;
   };
-  const match = p => (!cat || p.category === cat) && (!q || (p.name + ' ' + (p.description || '')).toLowerCase().includes(q.toLowerCase())) &&
+  const match = p => (!cat || p.category === cat) && (!q || [p.name, p.nameAr, p.nameFr, p.description].join(' ').toLowerCase().includes(q.toLowerCase())) &&
     (!fb || p.universal || (p.compat || []).some(c => c.brand === fb && (!fm || !c.model || c.model.toLowerCase() === fm.toLowerCase())));
   const draw = () => {
     const cats = [...new Set(prods.map(p => p.category).filter(Boolean))];
@@ -421,8 +426,8 @@ async function viewShop() {
     const list = all.slice((pg - 1) * 15, pg * 15);
     $('#cnt').textContent = all.length + ' / ' + prods.length;
     $('#pager').innerHTML = pages > 1 ? `<button class="chip" data-pg="${pg - 1}" ${pg === 1 ? 'disabled' : ''}>‹</button>` + Array.from({length: pages}, (_, i) => `<button class="chip ${i + 1 === pg ? 'on' : ''}" data-pg="${i + 1}">${i + 1}</button>`).join('') + `<button class="chip" data-pg="${pg + 1}" ${pg === pages ? 'disabled' : ''}>›</button>` : '';
-    $('#list').innerHTML = list.length ? list.map(p => `<article class="prod ${p.available === false ? 'off' : ''}"><a class="pic" href="/p/${esc(p.id)}">${imgsOf(p)[0] ? `<img loading="lazy" src="${esc(cdn(imgsOf(p)[0], 500))}" alt="${esc(p.name)}">` : '<div class="noimg"></div>'}${imgsOf(p).length > 1 ? `<span class="ph">🖼 ${imgsOf(p).length}</span>` : ''}</a>
-      <div><div class="tags">${stockTag(p)}${tagsOf(p)}</div><a class="pname" href="/p/${esc(p.id)}">${esc(p.name)}</a><span class="price">${money(p.price)}</span><button class="btn" data-id="${esc(p.id)}" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button></div></article>`).join('')
+    $('#list').innerHTML = list.length ? list.map(p => `<article class="prod ${p.available === false ? 'off' : ''}"><a class="pic" href="/p/${esc(p.id)}">${imgsOf(p)[0] ? `<img loading="lazy" src="${esc(cdn(imgsOf(p)[0], 500))}" alt="${esc(pn(p))}">` : '<div class="noimg"></div>'}${imgsOf(p).length > 1 ? `<span class="ph">🖼 ${imgsOf(p).length}</span>` : ''}</a>
+      <div><div class="tags">${stockTag(p)}${tagsOf(p)}</div><a class="pname" href="/p/${esc(p.id)}">${esc(pn(p))}</a><span class="price">${money(p.price)}</span><button class="btn" data-id="${esc(p.id)}" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button></div></article>`).join('')
       : `<p class="empty" style="grid-column:1/-1">${prods.length ? t('nores') : t('noprod')}</p>`;
   };
   fillModels(); draw();
@@ -440,16 +445,16 @@ async function viewProduct(id) {
   await loadProds(); ping();
   const p = prods.find(x => x.id === id);
   if (!p) { $('#app').innerHTML = `<div class="panel empty">${t('pnf')}<br><br><a class="btn" href="/">${t('back')}</a></div>`; return; }
-  document.title = p.name + ' | ABDmoteurs';
+  document.title = pn(p) + ' | ABDmoteurs';
   const url = location.origin + '/p/' + p.id, imgs = imgsOf(p);
   const comp = (p.universal ? `<li>${t('univ')}</li>` : '') + (p.compat || []).map(c => `<li>${esc(c.brand)} ${c.model ? esc(c.model) : '(' + t('allm') + ')'}</li>`).join('');
   $('#app').innerHTML = `<p style="margin-bottom:14px"><a href="/">← ${t('back')}</a></p><div class="panel pp">
     <div>${imgs.length ? '<div class="gal" id="g" dir="ltr"></div><div class="thumbs" id="tn" dir="ltr"></div>' : '<div class="noimg"></div>'}</div>
-    <div><h1>${esc(p.name)}</h1>${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''} ${stockTag(p)}<span class="price"><em>${money(p.price)}</em></span>
+    <div><h1>${esc(pn(p))}</h1>${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''} ${stockTag(p)}<span class="price"><em>${money(p.price)}</em></span>
     <h3>${t('compat')}</h3><ul>${comp}</ul>${p.description ? `<p style="margin-bottom:16px;line-height:1.7">${esc(p.description)}</p>` : ''}
     <button class="btn" id="ad" style="margin-bottom:18px" ${p.available === false ? 'disabled' : ''}>${p.available === false ? t('outstock') : t('add')}</button>
     <h3>${t('share')}</h3><div class="row" style="margin-top:8px">
-      <a class="btn alt sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(p.name + ' ' + url)}">WhatsApp</a>
+      <a class="btn alt sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(pn(p) + ' ' + url)}">WhatsApp</a>
       <a class="btn alt sm" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">Facebook</a>
       <button class="btn alt sm" id="cp">${t('copy')}</button></div></div></div>`;
   $('#ad').onclick = e => { cart[p.id] = (cart[p.id] || 0) + 1; saveCart(); e.target.textContent = '✓'; toast(); };
@@ -475,7 +480,7 @@ async function viewCart() {
   const lines = Object.entries(cart).map(([id, n]) => ({p: prods.find(x => x.id === id), n})).filter(x => x.p);
   if (!lines.length) { $('#app').innerHTML = `<div class="panel empty">${flash || (gone ? t('unavail') : t('empty'))}<br><br><a class="btn" href="/">${t('back')}</a></div>`; flash = ''; return; }
   const sub = lines.reduce((a, l) => a + l.p.price * l.n, 0);
-  $('#app').innerHTML = `<div class="panel" id="cl"><h2>${t('cart')}</h2>${gone ? `<p class="msg">${t('unavail')}</p>` : ''}${lines.map(l => `<div class="line"><span>${esc(l.p.name)}</span>
+  $('#app').innerHTML = `<div class="panel" id="cl"><h2>${t('cart')}</h2>${gone ? `<p class="msg">${t('unavail')}</p>` : ''}${lines.map(l => `<div class="line"><span>${esc(pn(l.p))}</span>
     <span class="row"><button class="btn alt sm" data-d="${esc(l.p.id)}:-1">−</button><b>${l.n}</b><button class="btn alt sm" data-d="${esc(l.p.id)}:1">+</button>
     <span>${money(l.p.price * l.n)}</span><button class="btn alt sm" data-d="${esc(l.p.id)}:x">${t('remove')}</button></span></div>`).join('')}</div>
   <form class="panel form" id="ck"><h2>${t('checkout')}</h2><div id="m"></div>
@@ -549,7 +554,8 @@ async function tabProducts() {
   const cats = [...new Set(list.map(p => p.category).filter(Boolean))];
   const v = k => esc(ed ? ed[k] || '' : '');
   $('#tb').innerHTML = `<form class="panel form" id="pf"><h2>${editId ? t('edit') : t('addp')}</h2>
-    <label>${t('pname')}<input name="name" required maxlength="100" value="${v('name')}"></label>
+    <label>${t('pnameAr')}<input name="nameAr" required maxlength="100" dir="rtl" value="${esc(ed ? ed.nameAr || '' : '')}"></label>
+<label>${t('pnameFr')}<input name="nameFr" required maxlength="100" dir="ltr" value="${esc(ed ? ed.nameFr || '' : '')}"></label>
     <label>${t('price')}<input name="price" type="number" min="1" required value="${ed ? ed.price : ''}"></label>
     <label>${t('cat')}<input name="category" maxlength="40" list="cl" value="${v('category')}"><datalist id="cl">${cats.map(c => `<option value="${esc(c)}">`).join('')}</datalist></label>
     <label>${t('avail')}<select name="available"><option value="1">${t('instock')}</option><option value="0" ${ed && ed.available === false ? 'selected' : ''}>${t('outstock')}</option></select></label>
@@ -563,7 +569,7 @@ async function tabProducts() {
       <input id="fi" type="file" accept="image/*" multiple><small style="color:var(--mut)">${t('mainhint')}</small></div>
     <div class="row"><button class="btn">${editId ? t('upd') : t('save')}</button>${editId ? `<button type="button" class="btn alt" id="cx">${t('cancel')}</button>` : ''}</div></form>
     <div class="panel" id="pl">${list.map(p => `<div class="line"><span class="row">${imgsOf(p)[0] ? `<img src="${esc(cdn(imgsOf(p)[0], 100))}" width="46" height="46" style="object-fit:cover;border-radius:8px" alt="">` : ''}
-      <span><b>${esc(p.name)}</b> — ${money(p.price)}<br><span class="tags">${tagsOf(p)}</span></span></span>
+      <span><b>${esc(pn(p))}</b> — ${money(p.price)}<br><span class="tags">${tagsOf(p)}</span></span></span>
       <span class="row"><button class="st ${p.available === false ? 'out' : 'in'}" data-a="${esc(p.id)}:${p.available === false ? 1 : 0}">${p.available === false ? t('outstock') : t('instock')}</button>
       <a class="btn alt sm" target="_blank" href="/p/${esc(p.id)}">🔗</a><button class="btn alt sm" data-e="${esc(p.id)}">${t('edit')}</button><button class="btn alt sm" data-x="${esc(p.id)}">${t('del')}</button></span></div>`).join('') || `<p class="empty">${t('noprod')}</p>`}</div>`;
   const dc = () => $('#cc').innerHTML = compat.map((c, i) => `<span class="tag x" data-i="${i}">${esc(c.brand)} ${esc(c.model)} ✕</span>`).join('') || `<small style="color:var(--mut)">${t('nocompat')}</small>`;
