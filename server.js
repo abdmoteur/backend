@@ -237,12 +237,13 @@ const parseCompat = raw => {
 };
 
 app.post('/api/products', auth, upload.array('images', 6), wrap(async (req, res) => {
-  const { name, price, category, description } = req.body;
-  if (!clean(name, 100) || !(+price > 0)) return res.status(400).json({ error: 'invalid' });
+  const { price, category, description } = req.body;
+const nameAr = clean(req.body.nameAr, 100), nameFr = clean(req.body.nameFr, 100);
+if (!nameAr || !nameFr || !(+price > 0)) return res.status(400).json({ error: 'invalid' });
   const compat = parseCompat(req.body.compat), universal = req.body.universal === '1';
   if (!universal && !compat.length) return res.status(400).json({ error: 'compat required' });
   const images = await Promise.all((req.files || []).slice(0, 6).map(f => uploadImg(f.buffer))), image = images[0] || '';
-  const doc = { name: clean(name, 100), price: +price, category: clean(category, 40), description: clean(description, 600),
+  const doc = { name: nameAr, nameAr, nameFr, price: +price, category: clean(category, 40), description: clean(description, 600),
     compat, universal, available: req.body.available !== '0', image, images, createdAt: Date.now() };
   const ref = await db.collection('products').add(doc);
   invalidate();
@@ -252,7 +253,11 @@ app.post('/api/products', auth, upload.array('images', 6), wrap(async (req, res)
 // Edit a product (full edit from the form, or just {available:true/false} from the quick toggle)
 app.patch('/api/products/:id', auth, upload.array('images', 6), wrap(async (req, res) => {
   const b = req.body, upd = {};
-  if (b.name !== undefined) { if (!clean(b.name, 100)) return res.status(400).json({ error: 'invalid' }); upd.name = clean(b.name, 100); }
+  if (b.nameAr !== undefined || b.nameFr !== undefined) {
+  upd.nameAr = clean(b.nameAr, 100); upd.nameFr = clean(b.nameFr, 100);
+  if (!upd.nameAr || !upd.nameFr) return res.status(400).json({ error: 'invalid' });
+  upd.name = upd.nameAr;
+}
   if (b.price !== undefined) { if (!(+b.price > 0)) return res.status(400).json({ error: 'invalid' }); upd.price = +b.price; }
   if (b.category !== undefined) upd.category = clean(b.category, 40);
   if (b.description !== undefined) upd.description = clean(b.description, 600);
