@@ -327,7 +327,7 @@ function setLang(l) {
 }
 $('#lang').onchange = e => setLang(e.target.value);
 $('#cartBtn').onclick = () => location.hash = '#cart';
-window.onhashchange = route;
+window.onhashchange = () => { window.scrollTo(0, 0); route(); };
 
 function route() {
   const h = location.hash, m = location.pathname.match(/^\/p\/([^/]+)/);
