@@ -156,7 +156,31 @@ details.g details.g{margin-inline-start:14px}
 .pager .chip{min-width:42px;text-align:center}
 .chip:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:22px}.shoplogo{width:min(220px,100%)}.pp{grid-template-columns:1fr}.bars div{grid-template-columns:80px 1fr 64px}}
-</style>
+/* ===== إصلاح عرض الموقع على الهاتف ===== */
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{max-width:100%}
+.hero>div,.pp>div,.prod,.line>*{min-width:0}
+.find{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.find select,.find input{min-width:0}
+.form{grid-template-columns:minmax(0,1fr)}
+.pname,.oi,.order,.line,.tag{overflow-wrap:anywhere}
+.logo{min-width:0}
+
+@media(max-width:760px){
+  .bar{padding:8px 12px;gap:8px}
+  .mini{width:38px;height:38px}
+  .logo{gap:6px}
+  .logo .word{font-size:19px}
+  .bar select{max-width:90px;padding:8px 6px;font-size:13px}
+  #cartBtn{padding:8px 10px;font-size:13px;white-space:nowrap}
+  main{padding:16px 12px 60px}
+  .hero{padding:18px}
+  .hero h1.word{font-size:clamp(32px,11vw,48px)}
+  .find{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .tabs .btn{flex:1 1 auto}
+}
+  </style>
 </head>
 <body>
 <header><div class="bar">
