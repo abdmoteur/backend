@@ -173,7 +173,12 @@ function sendHTML(req, res, html, gz) {
   res.send(html);
 }
 app.get('/', (req, res) => sendHTML(req, res, INDEX, INDEX_GZ));
-
+app.get('/communes.json', (req, res) => {
+  fs.readFile(path.join(__dirname, 'communes.json'), (e, d) => {
+    res.set({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
+    res.send(e ? '{}' : d);
+  });
+});
 // Each product has its own shareable link: /p/<id>  (with preview for Facebook / WhatsApp)
 const attr = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 app.get('/p/:id', async (req, res) => {
