@@ -208,6 +208,12 @@ const CONTACT = {
 };
 const BRANDS=['Renault','Peugeot','Citroën','Dacia','Volkswagen','Seat','Skoda','Hyundai','Kia','Toyota','Nissan','Suzuki','Fiat','Chevrolet','Mercedes-Benz','BMW','Audi','Ford','Opel','Mazda','Mitsubishi','Honda','Chery','Geely','Jeep','Isuzu'];
 const FEES = {home:600, desk:400}; // keep in sync with server.js
+  Object.assign(L.ar,{commune:'البلدية',choose:'اختر...'});
+Object.assign(L.fr,{commune:'Commune',choose:'Choisir...'});
+Object.assign(L.en,{commune:'Commune',choose:'Choose...'});
+const WILAYAS=[['01','أدرار','Adrar'],['02','الشلف','Chlef'],['03','الأغواط','Laghouat'],['04','أم البواقي','Oum El Bouaghi'],['05','باتنة','Batna'],['06','بجاية','Béjaïa'],['07','بسكرة','Biskra'],['08','بشار','Béchar'],['09','البليدة','Blida'],['10','البويرة','Bouira'],['11','تمنراست','Tamanrasset'],['12','تبسة','Tébessa'],['13','تلمسان','Tlemcen'],['14','تيارت','Tiaret'],['15','تيزي وزو','Tizi Ouzou'],['16','الجزائر','Alger'],['17','الجلفة','Djelfa'],['18','جيجل','Jijel'],['19','سطيف','Sétif'],['20','سعيدة','Saïda'],['21','سكيكدة','Skikda'],['22','سيدي بلعباس','Sidi Bel Abbès'],['23','عنابة','Annaba'],['24','قالمة','Guelma'],['25','قسنطينة','Constantine'],['26','المدية','Médéa'],['27','مستغانم','Mostaganem'],['28','المسيلة',"M'Sila"],['29','معسكر','Mascara'],['30','ورقلة','Ouargla'],['31','وهران','Oran'],['32','البيض','El Bayadh'],['33','إليزي','Illizi'],['34','برج بوعريريج','Bordj Bou Arréridj'],['35','بومرداس','Boumerdès'],['36','الطارف','El Tarf'],['37','تندوف','Tindouf'],['38','تيسمسيلت','Tissemsilt'],['39','الوادي','El Oued'],['40','خنشلة','Khenchela'],['41','سوق أهراس','Souk Ahras'],['42','تيبازة','Tipaza'],['43','ميلة','Mila'],['44','عين الدفلى','Aïn Defla'],['45','النعامة','Naâma'],['46','عين تموشنت','Aïn Témouchent'],['47','غرداية','Ghardaïa'],['48','غليزان','Relizane'],['49','تيميمون','Timimoun'],['50','برج باجي مختار','Bordj Badji Mokhtar'],['51','أولاد جلال','Ouled Djellal'],['52','بني عباس','Béni Abbès'],['53','عين صالح','In Salah'],['54','عين قزام','In Guezzam'],['55','تقرت','Touggourt'],['56','جانت','Djanet'],['57','المغير',"El M'Ghair"],['58','المنيعة','El Menia'],['59','أفلو','Aflou'],['60','بريكة','Barika'],['61','القنطرة','El Kantara'],['62','بئر العاتر','Bir El Ater'],['63','العريشة','El Aricha'],['64','قصر الشلالة','Ksar Chellala'],['65','عين وسارة','Aïn Oussara'],['66','مسعد','Messaad'],['67','قصر البخاري','Ksar El Boukhari'],['68','بوسعادة','Bou Saâda'],['69','الأبيض سيدي الشيخ','El Abiodh Sidi Cheikh']];
+let COM = null;
+const loadCom = async () => { if (!COM) { try { COM = await (await fetch('/communes.json')).json(); } catch { COM = {}; } } };
 let lang = localStorage.lang || 'ar', cart = JSON.parse(localStorage.cart || '{}'), prods = [], tok = sessionStorage.tok || '', tab = 'products', flash = '';
 let cat = '', fb = '', fm = '', q = '', pg = 1;
 const $ = s => document.querySelector(s), t = k => L[lang][k] || k;
@@ -442,19 +448,29 @@ async function viewCart() {
   <form class="panel form" id="ck"><h2>${t('checkout')}</h2><div id="m"></div>
     <label>${t('name')}<input name="name" required maxlength="80" autocomplete="name"></label>
     <label>${t('phone')}<input name="phone" required type="tel" pattern="[0-9+\\s]{9,15}" autocomplete="tel"></label>
-    <label>${t('wilaya')}<input name="wilaya" required maxlength="40"></label>
+        <label>${t('wilaya')}<select name="wilaya" id="wl" required><option value="">${t('choose')}</option>${WILAYAS.map(w => `<option value="${w[0]}">${w[0]} - ${esc(lang === 'ar' ? w[1] : w[2])}</option>`).join('')}</select></label>
+    <label>${t('commune')}<span id="cmw"><input name="commune" required maxlength="60"></span></label>
     <label>${t('address')}<input name="address" maxlength="160" autocomplete="street-address"></label>
     <label>${t('carlabel')}<input name="car" maxlength="80" value="${esc([fb, fm].filter(Boolean).join(' '))}" placeholder="Renault Clio 4 2016"></label>
     <label>${t('delivery')}<select name="delivery"><option value="home">${t('home')} — ${money(FEES.home)}</option><option value="desk">${t('desk')} — ${money(FEES.desk)}</option></select></label>
     <p>${t('sub_')}: <b>${money(sub)}</b></p><p>${t('total')}: <b id="tot"></b></p><button class="btn">${t('confirm')}</button></form>`;
   const tot = () => $('#tot').textContent = money(sub + FEES[$('#ck').elements.delivery.value]);
   tot(); $('#ck').elements.delivery.onchange = tot;
+    const setCom = async () => {
+    await loadCom(); const c = COM[$('#wl').value];
+    $('#cmw').innerHTML = c
+      ? `<select name="commune" required><option value="">${t('choose')}</option>${c.map(x => `<option value="${esc(x[1])}">${esc(lang === 'ar' ? x[0] : x[1])}</option>`).join('')}</select>`
+      : `<input name="commune" required maxlength="60">`;
+  };
+  $('#wl').onchange = setCom;
   $('#cl').onclick = e => {
     const d = e.target.dataset.d; if (!d) return; const [id, a] = d.split(':');
     if (a === 'x' || (cart[id] += +a) <= 0) delete cart[id]; saveCart(); viewCart();
   };
   $('#ck').onsubmit = async e => {
     e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+        const w = WILAYAS.find(x => x[0] === f.wilaya); f.wilaya = w ? w[0] + ' - ' + w[2] : f.wilaya;
+    f.address = [f.commune, f.address].filter(Boolean).join(' - ').slice(0, 160); delete f.commune;
     try {
       await jpost('/orders', {...f, items: Object.entries(cart).map(([id, qty]) => ({id, qty}))});
       cart = {}; saveCart(); flash = t('ok'); viewCart();
